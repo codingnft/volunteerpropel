@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "757670436064",
+    "project_id": "volunteer-e88a7",
+    "storage_bucket": "volunteer-e88a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757670436064:android:2e50df4629ae6eb9824485",
+        "android_client_info": {
+          "package_name": "com.codvets.volunteer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757670436064-68fe3379p0g1mmbpa2r60upkid8vliqj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDebi2CTpsjkLu50DFfQXTJKBNLk--1K4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757670436064-68fe3379p0g1mmbpa2r60upkid8vliqj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
