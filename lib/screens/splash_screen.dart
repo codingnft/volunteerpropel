@@ -15,9 +15,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPersistentFrameCallback((timeStamp) async {
-      await authController.checkCurrentUser(context);
-    });
+    // WidgetsBinding.instance!.addPersistentFrameCallback((timeStamp) async {
+    authController.checkCurrentUser(context);
+    // });
     super.initState();
   }
 
