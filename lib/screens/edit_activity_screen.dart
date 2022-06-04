@@ -344,107 +344,102 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                           border: Border.all(color: mainColor)),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Flexible(
-                                          child: GridView.builder(
-                                            shrinkWrap: true,
-                                            itemCount:
-                                                pickedFiles.files.length + 1,
-                                            gridDelegate:
-                                                SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount:
-                                                        isMobile ? 3 : 4,
-                                                    crossAxisSpacing: 10.0,
-                                                    mainAxisSpacing: 10.0),
-                                            itemBuilder: (context, index) {
-                                              if (index ==
-                                                  pickedFiles.files.length) {
-                                                return imageCount < 12
-                                                    ? getImageAddButton()
-                                                    : const SizedBox.shrink();
-                                              }
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Stack(
-                                                  children: [
-                                                    InkWell(
-                                                      onTap: () {
-                                                        showImageDailogue(
-                                                            context,
-                                                            bytes: pickedFiles
-                                                                .files[index]
-                                                                .bytes!);
-                                                      },
-                                                      child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                                image:
-                                                                    DecorationImage(
-                                                                        image:
-                                                                            MemoryImage(
-                                                                          pickedFiles
-                                                                              .files[index]
-                                                                              .bytes!,
-                                                                        ),
-                                                                        fit: BoxFit
-                                                                            .cover)),
-                                                      ),
+                                        child: GridView.builder(
+                                          shrinkWrap: true,
+                                          itemCount:
+                                              pickedFiles.files.length + 1,
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount:
+                                                      isMobile ? 3 : 4,
+                                                  crossAxisSpacing: 10.0,
+                                                  mainAxisSpacing: 10.0),
+                                          itemBuilder: (context, index) {
+                                            if (index ==
+                                                pickedFiles.files.length) {
+                                              return imageCount < 12
+                                                  ? getImageAddButton()
+                                                  : const SizedBox.shrink();
+                                            }
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Stack(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () {
+                                                      showImageDailogue(context,
+                                                          bytes: pickedFiles
+                                                              .files[index]
+                                                              .bytes!);
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                          image:
+                                                              DecorationImage(
+                                                                  image:
+                                                                      MemoryImage(
+                                                                    pickedFiles
+                                                                        .files[
+                                                                            index]
+                                                                        .bytes!,
+                                                                  ),
+                                                                  fit: BoxFit
+                                                                      .cover)),
                                                     ),
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.topRight,
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            pickedFiles.files
-                                                                .removeAt(
-                                                                    index);
-                                                            imageCount =
-                                                                imageCount - 1;
-                                                          });
-                                                        },
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.topRight,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          pickedFiles.files
+                                                              .removeAt(index);
+                                                          imageCount =
+                                                              imageCount - 1;
+                                                        });
+                                                      },
+                                                      child: CircleAvatar(
+                                                        backgroundColor:
+                                                            Colors.red,
                                                         child: CircleAvatar(
+                                                          radius: 20,
                                                           backgroundColor:
-                                                              Colors.red,
-                                                          child: CircleAvatar(
-                                                            radius: 20,
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            child: Image.asset(
-                                                              "assets/trash.png",
-                                                              width: 20,
-                                                              height: 20,
-                                                            ),
-                                                            // IconButton(
-                                                            //     onPressed: () {
-                                                            //       setState(() {
-                                                            //         pickedFiles
-                                                            //             .files
-                                                            //             .removeAt(
-                                                            //                 index);
-                                                            //         imageCount =
-                                                            //             imageCount -
-                                                            //                 1;
-                                                            //       });
-                                                            //     },
-                                                            //     icon: const Icon(
-                                                            //       Icons.delete,
-                                                            //       color:
-                                                            //           Colors.white,
-                                                            //     )),
+                                                              Colors.white,
+                                                          child: Image.asset(
+                                                            "assets/trash.png",
+                                                            width: 20,
+                                                            height: 20,
                                                           ),
+                                                          // IconButton(
+                                                          //     onPressed: () {
+                                                          //       setState(() {
+                                                          //         pickedFiles
+                                                          //             .files
+                                                          //             .removeAt(
+                                                          //                 index);
+                                                          //         imageCount =
+                                                          //             imageCount -
+                                                          //                 1;
+                                                          //       });
+                                                          //     },
+                                                          //     icon: const Icon(
+                                                          //       Icons.delete,
+                                                          //       color:
+                                                          //           Colors.white,
+                                                          //     )),
                                                         ),
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
                                         ),
                                       ),
                                     ),
@@ -462,20 +457,18 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                                 Border.all(color: mainColor)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Flexible(
-                                            child: GridView.builder(
-                                                shrinkWrap: true,
-                                                itemCount: 1,
-                                                gridDelegate:
-                                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                                        crossAxisCount:
-                                                            isMobile ? 3 : 4,
-                                                        crossAxisSpacing: 10.0,
-                                                        mainAxisSpacing: 10.0),
-                                                itemBuilder: (context, index) {
-                                                  return getImageAddButton();
-                                                }),
-                                          ),
+                                          child: GridView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: 1,
+                                              gridDelegate:
+                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount:
+                                                          isMobile ? 3 : 4,
+                                                      crossAxisSpacing: 10.0,
+                                                      mainAxisSpacing: 10.0),
+                                              itemBuilder: (context, index) {
+                                                return getImageAddButton();
+                                              }),
                                         )),
                                   ),
                             args != null &&
@@ -506,102 +499,97 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                           border: Border.all(color: mainColor)),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Flexible(
-                                          child: GridView.builder(
-                                            shrinkWrap: true,
-                                            itemCount:
-                                                args!.activity.picsUrl!.length,
-                                            gridDelegate:
-                                                SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount:
-                                                        isMobile ? 3 : 4,
-                                                    crossAxisSpacing: 10.0,
-                                                    mainAxisSpacing: 10.0),
-                                            itemBuilder: (context, index) {
-                                              return Stack(
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      showImageDailogue(context,
-                                                          url: args!.activity
-                                                              .picsUrl![index]);
-                                                    },
-                                                    child: ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      child: Center(
-                                                        child:
-                                                            CachedNetworkImage(
-                                                          fadeInCurve: Curves
-                                                              .fastLinearToSlowEaseIn,
-                                                          placeholder:
-                                                              (context, url) =>
-                                                                  Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child: Center(
-                                                              child:
-                                                                  CircularProgressIndicator(
-                                                                color: mainColor
-                                                                    .withOpacity(
-                                                                        0.5),
-                                                              ),
+                                        child: GridView.builder(
+                                          shrinkWrap: true,
+                                          itemCount:
+                                              args!.activity.picsUrl!.length,
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount:
+                                                      isMobile ? 3 : 4,
+                                                  crossAxisSpacing: 10.0,
+                                                  mainAxisSpacing: 10.0),
+                                          itemBuilder: (context, index) {
+                                            return Stack(
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    showImageDailogue(context,
+                                                        url: args!.activity
+                                                            .picsUrl![index]);
+                                                  },
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    child: Center(
+                                                      child: CachedNetworkImage(
+                                                        fadeInCurve: Curves
+                                                            .fastLinearToSlowEaseIn,
+                                                        placeholder:
+                                                            (context, url) =>
+                                                                Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Center(
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                              color: mainColor
+                                                                  .withOpacity(
+                                                                      0.5),
                                                             ),
                                                           ),
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              const Center(
-                                                                  child: Icon(Icons
-                                                                      .error)),
-                                                          imageUrl:
-                                                              "${args!.activity.picsUrl![index]}",
                                                         ),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            const Center(
+                                                                child: Icon(Icons
+                                                                    .error)),
+                                                        imageUrl:
+                                                            "${args!.activity.picsUrl![index]}",
                                                       ),
                                                     ),
                                                   ),
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.topRight,
-                                                    child: GestureDetector(
-                                                      onTap: () async {
-                                                        await homeController
-                                                            .deleteIndividualImage(
-                                                                context,
-                                                                imageUrl: args!
-                                                                        .activity
-                                                                        .picsUrl![
-                                                                    index]);
-                                                        setState(() {
-                                                          args!
-                                                              .activity.picsUrl!
-                                                              .removeAt(index);
-                                                          imageCount =
-                                                              imageCount - 1;
-                                                        });
-                                                        await homeController
-                                                            .updateActivity(
-                                                                context,
-                                                                activity: args!
-                                                                    .activity);
-                                                      },
-                                                      child: CircleAvatar(
-                                                        radius: 20,
-                                                        backgroundColor:
-                                                            Colors.white,
-                                                        child: Image.asset(
-                                                          "assets/trash.png",
-                                                          width: 20,
-                                                          height: 20,
-                                                        ),
+                                                ),
+                                                Align(
+                                                  alignment: Alignment.topRight,
+                                                  child: GestureDetector(
+                                                    onTap: () async {
+                                                      await homeController
+                                                          .deleteIndividualImage(
+                                                              context,
+                                                              imageUrl: args!
+                                                                      .activity
+                                                                      .picsUrl![
+                                                                  index]);
+                                                      setState(() {
+                                                        args!.activity.picsUrl!
+                                                            .removeAt(index);
+                                                        imageCount =
+                                                            imageCount - 1;
+                                                      });
+                                                      await homeController
+                                                          .updateActivity(
+                                                              context,
+                                                              activity: args!
+                                                                  .activity);
+                                                    },
+                                                    child: CircleAvatar(
+                                                      radius: 20,
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      child: Image.asset(
+                                                        "assets/trash.png",
+                                                        width: 20,
+                                                        height: 20,
                                                       ),
                                                     ),
                                                   ),
-                                                ],
-                                              );
-                                            },
-                                          ),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         ),
                                       ),
                                     ),

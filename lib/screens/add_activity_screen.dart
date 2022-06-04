@@ -280,88 +280,84 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                     border: Border.all(color: mainColor)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Flexible(
-                                    child: GridView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: pickedFiles!.files.length + 1,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: isMobile ? 3 : 4,
-                                              crossAxisSpacing: 10.0,
-                                              mainAxisSpacing: 10.0),
-                                      itemBuilder: (context, index) {
-                                        if (index ==
-                                            pickedFiles!.files.length) {
-                                          return imageCount < 12
-                                              ? getImageAddButton()
-                                              : const SizedBox.shrink();
-                                        }
-                                        return Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Stack(
-                                            children: [
-                                              InkWell(
+                                  child: GridView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: pickedFiles!.files.length + 1,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: isMobile ? 3 : 4,
+                                            crossAxisSpacing: 10.0,
+                                            mainAxisSpacing: 10.0),
+                                    itemBuilder: (context, index) {
+                                      if (index == pickedFiles!.files.length) {
+                                        return imageCount < 12
+                                            ? getImageAddButton()
+                                            : const SizedBox.shrink();
+                                      }
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Stack(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                showImageDailogue(context,
+                                                    bytes: pickedFiles!
+                                                        .files[index].bytes!);
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    image: DecorationImage(
+                                                        image: MemoryImage(
+                                                          pickedFiles!
+                                                              .files[index]
+                                                              .bytes!,
+                                                        ),
+                                                        fit: BoxFit.cover)),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.topRight,
+                                              child: GestureDetector(
                                                 onTap: () {
-                                                  showImageDailogue(context,
-                                                      bytes: pickedFiles!
-                                                          .files[index].bytes!);
+                                                  setState(() {
+                                                    pickedFiles!.files
+                                                        .removeAt(index);
+                                                    imageCount = pickedFiles!
+                                                        .files.length;
+                                                  });
                                                 },
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      image: DecorationImage(
-                                                          image: MemoryImage(
-                                                            pickedFiles!
-                                                                .files[index]
-                                                                .bytes!,
-                                                          ),
-                                                          fit: BoxFit.cover)),
-                                                ),
-                                              ),
-                                              Align(
-                                                alignment: Alignment.topRight,
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      pickedFiles!.files
-                                                          .removeAt(index);
-                                                      imageCount = pickedFiles!
-                                                          .files.length;
-                                                    });
-                                                  },
-                                                  child: CircleAvatar(
-                                                    radius: 20,
-                                                    backgroundColor:
-                                                        Colors.white,
-                                                    child: Image.asset(
-                                                      "assets/trash.png",
-                                                      width: 20,
-                                                      height: 20,
-                                                    ),
-                                                    // IconButton(
-                                                    //     onPressed: () {
-                                                    //       setState(() {
-                                                    //         pickedFiles!.files
-                                                    //             .removeAt(index);
-                                                    //         imageCount =
-                                                    //             pickedFiles!
-                                                    //                 .files.length;
-                                                    //       });
-                                                    //     },
-                                                    //     icon: const Icon(
-                                                    //       Icons.delete,
-                                                    //       color: Colors.white,
-                                                    //     )),
+                                                child: CircleAvatar(
+                                                  radius: 20,
+                                                  backgroundColor: Colors.white,
+                                                  child: Image.asset(
+                                                    "assets/trash.png",
+                                                    width: 20,
+                                                    height: 20,
                                                   ),
+                                                  // IconButton(
+                                                  //     onPressed: () {
+                                                  //       setState(() {
+                                                  //         pickedFiles!.files
+                                                  //             .removeAt(index);
+                                                  //         imageCount =
+                                                  //             pickedFiles!
+                                                  //                 .files.length;
+                                                  //       });
+                                                  //     },
+                                                  //     icon: const Icon(
+                                                  //       Icons.delete,
+                                                  //       color: Colors.white,
+                                                  //     )),
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
@@ -377,20 +373,18 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                       border: Border.all(color: mainColor)),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Flexible(
-                                      child: GridView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: 1,
-                                          gridDelegate:
-                                              SliverGridDelegateWithFixedCrossAxisCount(
-                                                  crossAxisCount:
-                                                      isMobile ? 3 : 4,
-                                                  crossAxisSpacing: 10.0,
-                                                  mainAxisSpacing: 10.0),
-                                          itemBuilder: (context, index) {
-                                            return getImageAddButton();
-                                          }),
-                                    ),
+                                    child: GridView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: 1,
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount:
+                                                    isMobile ? 3 : 4,
+                                                crossAxisSpacing: 10.0,
+                                                mainAxisSpacing: 10.0),
+                                        itemBuilder: (context, index) {
+                                          return getImageAddButton();
+                                        }),
                                   )),
                             ),
                       const Divider(),

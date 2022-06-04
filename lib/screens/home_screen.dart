@@ -47,18 +47,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration(seconds: 1), () {
-      setState(() {
-        // query = FirebaseFirestore.instance
-        //     .collection("activities")
-        //     .orderBy("dateCreated", descending: true)
-        //     .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-        //     .withConverter<ActivityModel>(
-        //         fromFirestore: (snapshot, _) =>
-        //             ActivityModel.fromJson(snapshot.data()!),
-        //         toFirestore: (activity, _) => activity.toJson());
-      });
-    });
+    // Future.delayed(Duration(seconds: 1), () {
+    //   setState(() {
+    //     // query = FirebaseFirestore.instance
+    //     //     .collection("activities")
+    //     //     .orderBy("dateCreated", descending: true)
+    //     //     .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+    //     //     .withConverter<ActivityModel>(
+    //     //         fromFirestore: (snapshot, _) =>
+    //     //             ActivityModel.fromJson(snapshot.data()!),
+    //     //         toFirestore: (activity, _) => activity.toJson());
+    //   });
+    // });
 
     return Scaffold(
       backgroundColor: Colors.white, //Colors.grey.withOpacity(0.2),
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
           leadingWidth: Get.width * 0.3,
           actions: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.only(right: 40),
               child: IconButton(
                 tooltip: "Logout",
                 onPressed: () {
@@ -95,6 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
           width: isMobile ? double.infinity : Get.width / 1.8,
           child: Column(
             mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GetBuilder<AuthController>(builder: (context2) {
                 return authController.query == null ||
@@ -120,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             final activity = snapshot.data();
                             return Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 10),
+                                  horizontal: 20, vertical: 15),
                               child: AcctivityCard2(activity: activity),
                             );
                           },
