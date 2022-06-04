@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:volunteer/controller/ui_controller.dart';
 import 'package:volunteer/routes/routes.dart';
+import 'package:volunteer/util/const.dart';
+import 'package:volunteer/util/helper.dart';
 import 'package:volunteer/widgets/auth_screens/login_card.dart';
 import 'package:volunteer/widgets/auth_screens/register_card.dart';
 
@@ -29,30 +31,71 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Container(
-        // width: MediaQuery.of(context).size.width,
-        // height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/cover.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: GetBuilder<UiController>(
-              builder: (context) {
-                return AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 500),
-                  switchInCurve: Curves.easeInBack,
-                  child: controller.isLoginCard ? LoginCard() : RegisterCard(),
-                );
-              },
-            ),
-          ),
-        ),
-      ),
+      body: LayoutBuilder(builder: (context, constraints) {
+        return !isMobile
+            ? SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: constraints.maxWidth / 2,
+                          height: constraints.maxHeight,
+                          decoration: BoxDecoration(
+                            color: mainColor,
+                            image: const DecorationImage(
+                              image: AssetImage("assets/vol.png"),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GetBuilder<UiController>(
+                            builder: (context) {
+                              return AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 500),
+                                switchInCurve: Curves.easeInBack,
+                                child: controller.isLoginCard
+                                    ? LoginCard()
+                                    : RegisterCard(),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      width: constraints.maxWidth,
+                      height: constraints.maxHeight * 0.15,
+                      decoration: BoxDecoration(
+                        color: mainColor,
+                        image: const DecorationImage(
+                          image: AssetImage("assets/vol.png"),
+                        ),
+                      ),
+                    ),
+                    GetBuilder<UiController>(
+                      builder: (context) {
+                        return AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 500),
+                          switchInCurve: Curves.easeInBack,
+                          child: controller.isLoginCard
+                              ? LoginCard()
+                              : RegisterCard(),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              );
+      }),
     );
   }
 }

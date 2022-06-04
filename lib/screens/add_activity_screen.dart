@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: mainColor,
         centerTitle: true,
@@ -34,7 +37,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
             onPressed: () {
               Get.offAllNamed(Routes.homeScreen);
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back)),
         title: const Text("Add Activity"),
       ),
       body: SingleChildScrollView(
@@ -68,32 +71,38 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                           },
                           cursorColor: mainColor,
                           decoration: InputDecoration(
-                            label: const Text("Orgaination Name *"),
-                            contentPadding: const EdgeInsets.all(20),
-                            floatingLabelStyle: TextStyle(color: mainColor),
-                            border: const OutlineInputBorder(),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: mainColor),
-                            ),
-                          ),
+                              label: const Text("Orgaination Name *"),
+                              contentPadding: const EdgeInsets.all(20),
+                              floatingLabelStyle: TextStyle(color: mainColor),
+                              border: getInputBorder(),
+                              focusedBorder: getInputBorder(),
+                              disabledBorder: getInputBorder()),
                         ),
                       ),
                       GetBuilder<HomeController>(
                         builder: (context) {
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40),
+                            padding: const EdgeInsets.symmetric(horizontal: 30),
                             child: Column(
                               // crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 5),
-                                  child: Text(
-                                    "Hours",
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                ),
-                                Card(
-                                  elevation: 3,
+                                // Padding(
+                                //   padding:
+                                //       const EdgeInsets.symmetric(vertical: 10),
+                                //   child: Row(
+                                //     children: const [
+                                //       Text(
+                                //         "Hours",
+                                //         style: TextStyle(fontSize: 18),
+                                //       ),
+                                //     ],
+                                //   ),
+                                // ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 1, color: mainColor),
+                                      borderRadius: BorderRadius.circular(20)),
                                   child: DropdownButton<double>(
                                       isExpanded: true,
                                       underline: const SizedBox(),
@@ -154,10 +163,8 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                               label: const Text("Date (From) *"),
                               contentPadding: const EdgeInsets.all(20),
                               floatingLabelStyle: TextStyle(color: mainColor),
-                              border: const OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: mainColor),
-                              ),
+                              border: getInputBorder(),
+                              focusedBorder: getInputBorder(),
                             ),
                           );
                         }),
@@ -199,10 +206,8 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                               label: const Text("Date (To)"),
                               contentPadding: const EdgeInsets.all(20),
                               floatingLabelStyle: TextStyle(color: mainColor),
-                              border: const OutlineInputBorder(),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: mainColor),
-                              ),
+                              border: getInputBorder(),
+                              focusedBorder: getInputBorder(),
                             ),
                           );
                         }),
@@ -219,69 +224,48 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                             label: const Text("Notes"),
                             contentPadding: const EdgeInsets.all(20),
                             floatingLabelStyle: TextStyle(color: mainColor),
-                            border: const OutlineInputBorder(),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: mainColor),
-                            ),
+                            border: getInputBorder().copyWith(
+                                borderRadius: BorderRadius.circular(20)),
+                            focusedBorder: getInputBorder().copyWith(
+                                borderRadius: BorderRadius.circular(20)),
                           ),
                         ),
                       ),
                       Row(
                         children: [
-                          ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                  primary: mainColor,
-                                  padding: const EdgeInsets.all(20)),
-                              onPressed: imageCount == 12
-                                  ? null
-                                  : () async {
-                                      await FilePicker.platform
-                                          .pickFiles(
-                                        allowMultiple: true,
-                                        type: FileType.image,
-                                      )
-                                          .then((value) {
-                                        value!.files.forEach((eachFile) {
-                                          if (pickedFiles!.files.length < 12) {
-                                            pickedFiles!.files.add(eachFile);
-                                          }
-                                        });
-                                        if (pickedFiles != null &&
-                                            pickedFiles!.files.isNotEmpty) {
-                                          setState(() {
-                                            imageCount =
-                                                pickedFiles!.files.length;
-                                          });
-                                        }
-                                      });
-
-                                      // if (pickedFiles != null &&
-                                      //     pickedFiles!.files.isNotEmpty) {
-                                      //   if (pickedFiles!.files.length > 12) {
-                                      //     showErrorDialogue(context,
-                                      //         msg: "12 images are allowed only");
-                                      //   } else {
-                                      //     setState(() {
-                                      //       imageCount = pickedFiles!.files.length;
-                                      //     });
-                                      //   }
-                                      // }
-
-                                      // FileUploadInputElement uploadInput =
-                                      //     FileUploadInputElement()..accept = "image/*";
-                                      // uploadInput.click();
-                                      // uploadInput.onChange.listen((event) {
-                                      //   final file = uploadInput.files!.first;
-                                      //   final reader = FileReader();
-                                      //   reader.readAsDataUrl(file);
-                                      //   reader.onLoadEnd.listen((event) {
-                                      //     print("Done");
-                                      //   });
-                                      // });
-                                    },
-                              icon: const Icon(Icons.image),
-                              label: const Text("Upload")),
-                          Text(" ($imageCount / 12 )"),
+                          // ElevatedButton.icon(
+                          //     style: ElevatedButton.styleFrom(
+                          //         primary: mainColor,
+                          //         padding: const EdgeInsets.all(20)),
+                          //     onPressed: imageCount == 12
+                          //         ? null
+                          //         : () async {
+                          //             await FilePicker.platform
+                          //                 .pickFiles(
+                          //               allowMultiple: true,
+                          //               type: FileType.image,
+                          //             )
+                          //                 .then((value) {
+                          //               value!.files.forEach((eachFile) {
+                          //                 if (pickedFiles!.files.length < 12) {
+                          //                   pickedFiles!.files.add(eachFile);
+                          //                 }
+                          //               });
+                          //               if (pickedFiles != null &&
+                          //                   pickedFiles!.files.isNotEmpty) {
+                          //                 setState(() {
+                          //                   imageCount =
+                          //                       pickedFiles!.files.length;
+                          //                 });
+                          //               }
+                          //             });
+                          //           },
+                          //     icon: const Icon(Icons.image),
+                          //     label: const Text("Upload")),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text("Images ($imageCount / 12 )"),
+                          ),
                         ],
                       ),
                       pickedFiles != null && pickedFiles!.files.isNotEmpty
@@ -291,85 +275,139 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                 width: isMobile
                                     ? Get.width * 0.95
                                     : Get.width * 0.6,
-                                height: Get.height * 0.35,
                                 decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.black)),
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(color: mainColor)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: GridView.builder(
-                                    itemCount: pickedFiles!.files.length,
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: isMobile ? 2 : 4,
-                                            crossAxisSpacing: 10.0,
-                                            mainAxisSpacing: 10.0),
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Stack(
-                                          children: [
-                                            InkWell(
-                                              onTap: () {
-                                                showImageDailogue(context,
-                                                    bytes: pickedFiles!
-                                                        .files[index].bytes!);
-                                              },
-                                              child: Image.memory(
-                                                pickedFiles!
-                                                    .files[index].bytes!,
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment: Alignment.topRight,
-                                              child: CircleAvatar(
-                                                backgroundColor: Colors.red,
-                                                child: IconButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        pickedFiles!.files
-                                                            .removeAt(index);
-                                                        imageCount =
+                                  child: Flexible(
+                                    child: GridView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: pickedFiles!.files.length + 1,
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: isMobile ? 2 : 4,
+                                              crossAxisSpacing: 10.0,
+                                              mainAxisSpacing: 10.0),
+                                      itemBuilder: (context, index) {
+                                        if (index ==
+                                            pickedFiles!.files.length) {
+                                          return imageCount < 12
+                                              ? getImageAddButton()
+                                              : const SizedBox.shrink();
+                                        }
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Stack(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {
+                                                  showImageDailogue(context,
+                                                      bytes: pickedFiles!
+                                                          .files[index].bytes!);
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      image: DecorationImage(
+                                                          image: MemoryImage(
                                                             pickedFiles!
-                                                                .files.length;
-                                                      });
-                                                    },
-                                                    icon: const Icon(
-                                                      Icons.delete,
-                                                      color: Colors.white,
-                                                    )),
+                                                                .files[index]
+                                                                .bytes!,
+                                                          ),
+                                                          fit: BoxFit.cover)),
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
+                                              Align(
+                                                alignment: Alignment.topRight,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      pickedFiles!.files
+                                                          .removeAt(index);
+                                                      imageCount = pickedFiles!
+                                                          .files.length;
+                                                    });
+                                                  },
+                                                  child: CircleAvatar(
+                                                    radius: 30,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    child: Image.asset(
+                                                      "assets/trash.png",
+                                                      width: 30,
+                                                      height: 30,
+                                                    ),
+                                                    // IconButton(
+                                                    //     onPressed: () {
+                                                    //       setState(() {
+                                                    //         pickedFiles!.files
+                                                    //             .removeAt(index);
+                                                    //         imageCount =
+                                                    //             pickedFiles!
+                                                    //                 .files.length;
+                                                    //       });
+                                                    //     },
+                                                    //     icon: const Icon(
+                                                    //       Icons.delete,
+                                                    //       color: Colors.white,
+                                                    //     )),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ),
                               ),
                             )
-                          : const SizedBox(),
+                          : Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                  width: isMobile
+                                      ? Get.width * 0.95
+                                      : Get.width * 0.6,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(color: mainColor)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Flexible(
+                                      child: GridView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: 1,
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                  crossAxisCount:
+                                                      isMobile ? 2 : 4,
+                                                  crossAxisSpacing: 10.0,
+                                                  mainAxisSpacing: 10.0),
+                                          itemBuilder: (context, index) {
+                                            return getImageAddButton();
+                                          }),
+                                    ),
+                                  )),
+                            ),
                       const Divider(),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 20, horizontal: 10),
-                        child: Row(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            TextButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: const Padding(
-                                padding: EdgeInsets.all(15.0),
-                                child: Text("Close"),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
                             ElevatedButton(
-                              style:
-                                  ElevatedButton.styleFrom(primary: mainColor),
+                              style: ElevatedButton.styleFrom(
+                                primary: mainColor,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    side: BorderSide(color: mainColor)),
+                              ),
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
                                   homeController.addActivity(context,
@@ -385,6 +423,27 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                 child: Text("Add Activity"),
                               ),
                             ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    side: BorderSide(color: mainColor)),
+                              ),
+                              onPressed: () {
+                                Get.offAllNamed(Routes.homeScreen);
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(15.0),
+                                child: Text(
+                                  "Close",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -397,5 +456,42 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
         ),
       ),
     );
+  }
+
+  Widget getImageAddButton() {
+    return GestureDetector(
+        onTap: imageCount == 12
+            ? null
+            : () async {
+                await FilePicker.platform
+                    .pickFiles(
+                  allowMultiple: true,
+                  type: FileType.image,
+                )
+                    .then((value) {
+                  value!.files.forEach((eachFile) {
+                    if (pickedFiles!.files.length < 12) {
+                      pickedFiles!.files.add(eachFile);
+                    }
+                  });
+                  if (pickedFiles != null && pickedFiles!.files.isNotEmpty) {
+                    setState(() {
+                      imageCount = pickedFiles!.files.length;
+                    });
+                  }
+                });
+              },
+        child: Container(
+          decoration: BoxDecoration(
+            color: mainColor.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: const Center(
+              child: Icon(
+            Icons.add_circle_outline,
+            color: Colors.white,
+            size: 80,
+          )),
+        ));
   }
 }

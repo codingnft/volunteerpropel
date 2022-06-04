@@ -61,34 +61,36 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: Colors.grey.withOpacity(0.2),
-      appBar: AppBar(
-        backgroundColor: mainColor,
-        leading: const Image(
-          image: AssetImage("assets/vol.png"),
-          width: 200,
-          height: 500,
-        ),
-        title: const Text("Volunteer"),
-        centerTitle: true,
-        leadingWidth: 85,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              child: IconButton(
-                tooltip: "Logout",
-                onPressed: () {
-                  authController.logout(context);
-                },
-                icon: const FaIcon(
-                  FontAwesomeIcons.arrowRightFromBracket,
-                  color: Colors.redAccent,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(80.0),
+        child: AppBar(
+          backgroundColor: mainColor,
+          leading: const Image(
+            image: AssetImage("assets/vol.png"),
+            width: 300,
+          ),
+          title: const Text("My Activites"),
+          centerTitle: true,
+          leadingWidth: Get.width * 0.3,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: IconButton(
+                  tooltip: "Logout",
+                  onPressed: () {
+                    authController.logout(context);
+                  },
+                  icon: const FaIcon(
+                    FontAwesomeIcons.arrowRightFromBracket,
+                    color: Colors.redAccent,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       body: Center(
         child: SizedBox(

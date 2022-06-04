@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-Color mainColor = const Color(0xff36C38B);
+Color mainColor = const Color(0xff3FBA76);
 
 List<double> hoursList = [
   1,

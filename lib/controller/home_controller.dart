@@ -45,7 +45,7 @@ class HomeController extends GetxController {
           organizationName: orgName,
           hours: hours,
           dateFrom: dateFrom!,
-          dateTo: dateTo,
+          dateTo: dateTo ?? DateTime.now(),
           notes: notes,
         );
         await network.addActivity(activity);

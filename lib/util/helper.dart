@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:volunteer/util/const.dart';
 
 RegExp emailValid = RegExp(
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
 bool get isMobile {
   final data = MediaQueryData.fromWindow(WidgetsBinding.instance!.window);
-  return data.size.shortestSide < 600 ? true : false;
+  return data.size.shortestSide < 700 ? true : false;
 }
 
 TextStyle get getAuthCardHeader => GoogleFonts.lato(
@@ -15,6 +16,13 @@ TextStyle get getAuthCardHeader => GoogleFonts.lato(
       fontWeight: FontWeight.w600,
       color: Colors.black,
     );
+
+OutlineInputBorder getInputBorder() {
+  return OutlineInputBorder(
+    borderRadius: BorderRadius.circular(50),
+    borderSide: BorderSide(color: mainColor),
+  );
+}
 
 void alertMessage(BuildContext context, String msg) {
   Get.snackbar("Alert", msg,
