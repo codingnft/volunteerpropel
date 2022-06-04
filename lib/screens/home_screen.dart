@@ -16,6 +16,7 @@ import 'package:volunteer/util/const.dart';
 import 'package:volunteer/util/dialogues/add_activity_dialogue.dart';
 import 'package:volunteer/util/helper.dart';
 import 'package:volunteer/widgets/home_screen/activity_card.dart';
+import 'package:volunteer/widgets/home_screen/activity_card2.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -60,14 +61,13 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     return Scaffold(
-      backgroundColor: Colors.grey.withOpacity(0.2),
+      backgroundColor: Colors.white, //Colors.grey.withOpacity(0.2),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(80.0),
         child: AppBar(
           backgroundColor: mainColor,
           leading: const Image(
             image: AssetImage("assets/vol.png"),
-            width: 300,
           ),
           title: const Text("My Activites"),
           centerTitle: true,
@@ -75,17 +75,15 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: IconButton(
-                  tooltip: "Logout",
-                  onPressed: () {
-                    authController.logout(context);
-                  },
-                  icon: const FaIcon(
-                    FontAwesomeIcons.arrowRightFromBracket,
-                    color: Colors.redAccent,
-                  ),
+              child: IconButton(
+                tooltip: "Logout",
+                onPressed: () {
+                  authController.logout(context);
+                },
+                icon: const FaIcon(
+                  Icons.logout,
+                  size: 35,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -94,78 +92,72 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(
         child: SizedBox(
-          width: isMobile ? double.infinity : Get.width / 2,
-          child: Card(
-            elevation: 4,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
+          width: isMobile ? double.infinity : Get.width / 1.8,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              GetBuilder<AuthController>(builder: (context2) {
+                return authController.query == null ||
+                        FirebaseAuth.instance.currentUser == null
+                    ? const SizedBox()
+                    : Expanded(
+                        child: FirestoreListView<ActivityModel>(
+                          shrinkWrap: true,
+                          pageSize: 5,
+                          loadingBuilder: (context) => Center(
+                            child: CircularProgressIndicator(
+                              color: mainColor,
+                            ),
+                          ),
+                          errorBuilder: (context, error, stk) => const Center(
+                            child: Text(
+                              "OOPS! Something went wrong.",
+                              style: TextStyle(color: Colors.red, fontSize: 20),
+                            ),
+                          ),
+                          query: authController.query!,
+                          itemBuilder: (context, snapshot) {
+                            final activity = snapshot.data();
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              child: AcctivityCard2(activity: activity),
+                            );
+                          },
+                        ),
+                      );
+              }),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: mainColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(color: mainColor)),
+                      ),
+                      onPressed: () {
+                        Get.toNamed(Routes.addActivityScreen);
+                        // addActivityDialogue(context);
+                      },
+                      child: Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: Text(
-                          "My Activities",
-                          style: getAuthCardHeader,
+                          "Add Activity",
+                          style: GoogleFonts.lato(fontSize: 16),
                         ),
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: mainColor),
-                        onPressed: () {
-                          Get.toNamed(Routes.addActivityScreen);
-                          // addActivityDialogue(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text(
-                            "Add Activity",
-                            style: GoogleFonts.lato(fontSize: 16),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const Divider(
-                  thickness: 2,
-                ),
-                GetBuilder<AuthController>(builder: (context2) {
-                  return authController.query == null ||
-                          FirebaseAuth.instance.currentUser == null
-                      ? SizedBox()
-                      : Expanded(
-                          child: FirestoreListView<ActivityModel>(
-                            shrinkWrap: true,
-                            pageSize: 5,
-                            loadingBuilder: (context) => Center(
-                              child: CircularProgressIndicator(
-                                color: mainColor,
-                              ),
-                            ),
-                            errorBuilder: (context, error, stk) => const Center(
-                              child: Text(
-                                "OOPS! Something went wrong.",
-                                style:
-                                    TextStyle(color: Colors.red, fontSize: 20),
-                              ),
-                            ),
-                            query: authController.query!,
-                            itemBuilder: (context, snapshot) {
-                              final activity = snapshot.data();
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                child: ActivityCard(activity: activity),
-                              );
-                            },
-                          ),
-                        );
-                })
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+            ],
           ),
         ),
       ),

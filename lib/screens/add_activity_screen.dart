@@ -286,7 +286,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                       itemCount: pickedFiles!.files.length + 1,
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: isMobile ? 2 : 4,
+                                              crossAxisCount: isMobile ? 3 : 4,
                                               crossAxisSpacing: 10.0,
                                               mainAxisSpacing: 10.0),
                                       itemBuilder: (context, index) {
@@ -332,13 +332,13 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                                     });
                                                   },
                                                   child: CircleAvatar(
-                                                    radius: 30,
+                                                    radius: 20,
                                                     backgroundColor:
                                                         Colors.white,
                                                     child: Image.asset(
                                                       "assets/trash.png",
-                                                      width: 30,
-                                                      height: 30,
+                                                      width: 20,
+                                                      height: 20,
                                                     ),
                                                     // IconButton(
                                                     //     onPressed: () {
@@ -384,7 +384,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                           gridDelegate:
                                               SliverGridDelegateWithFixedCrossAxisCount(
                                                   crossAxisCount:
-                                                      isMobile ? 2 : 4,
+                                                      isMobile ? 3 : 4,
                                                   crossAxisSpacing: 10.0,
                                                   mainAxisSpacing: 10.0),
                                           itemBuilder: (context, index) {

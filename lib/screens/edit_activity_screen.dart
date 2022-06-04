@@ -352,7 +352,7 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                             gridDelegate:
                                                 SliverGridDelegateWithFixedCrossAxisCount(
                                                     crossAxisCount:
-                                                        isMobile ? 2 : 4,
+                                                        isMobile ? 3 : 4,
                                                     crossAxisSpacing: 10.0,
                                                     mainAxisSpacing: 10.0),
                                             itemBuilder: (context, index) {
@@ -411,13 +411,13 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                                           backgroundColor:
                                                               Colors.red,
                                                           child: CircleAvatar(
-                                                            radius: 30,
+                                                            radius: 20,
                                                             backgroundColor:
                                                                 Colors.white,
                                                             child: Image.asset(
                                                               "assets/trash.png",
-                                                              width: 30,
-                                                              height: 30,
+                                                              width: 20,
+                                                              height: 20,
                                                             ),
                                                             // IconButton(
                                                             //     onPressed: () {
@@ -469,7 +469,7 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                                 gridDelegate:
                                                     SliverGridDelegateWithFixedCrossAxisCount(
                                                         crossAxisCount:
-                                                            isMobile ? 2 : 4,
+                                                            isMobile ? 3 : 4,
                                                         crossAxisSpacing: 10.0,
                                                         mainAxisSpacing: 10.0),
                                                 itemBuilder: (context, index) {
@@ -514,7 +514,7 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                             gridDelegate:
                                                 SliverGridDelegateWithFixedCrossAxisCount(
                                                     crossAxisCount:
-                                                        isMobile ? 2 : 4,
+                                                        isMobile ? 3 : 4,
                                                     crossAxisSpacing: 10.0,
                                                     mainAxisSpacing: 10.0),
                                             itemBuilder: (context, index) {
@@ -530,31 +530,34 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               10),
-                                                      child: CachedNetworkImage(
-                                                        fadeInCurve: Curves
-                                                            .fastLinearToSlowEaseIn,
-                                                        placeholder:
-                                                            (context, url) =>
-                                                                Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(8.0),
-                                                          child: Center(
-                                                            child:
-                                                                CircularProgressIndicator(
-                                                              color: mainColor
-                                                                  .withOpacity(
-                                                                      0.5),
+                                                      child: Center(
+                                                        child:
+                                                            CachedNetworkImage(
+                                                          fadeInCurve: Curves
+                                                              .fastLinearToSlowEaseIn,
+                                                          placeholder:
+                                                              (context, url) =>
+                                                                  Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Center(
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                color: mainColor
+                                                                    .withOpacity(
+                                                                        0.5),
+                                                              ),
                                                             ),
                                                           ),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              const Center(
+                                                                  child: Icon(Icons
+                                                                      .error)),
+                                                          imageUrl:
+                                                              "${args!.activity.picsUrl![index]}",
                                                         ),
-                                                        errorWidget: (context,
-                                                                url, error) =>
-                                                            const Center(
-                                                                child: Icon(Icons
-                                                                    .error)),
-                                                        imageUrl:
-                                                            "${args!.activity.picsUrl![index]}",
                                                       ),
                                                     ),
                                                   ),
@@ -584,12 +587,13 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                                                     .activity);
                                                       },
                                                       child: CircleAvatar(
+                                                        radius: 20,
                                                         backgroundColor:
                                                             Colors.white,
                                                         child: Image.asset(
                                                           "assets/trash.png",
-                                                          width: 30,
-                                                          height: 30,
+                                                          width: 20,
+                                                          height: 20,
                                                         ),
                                                       ),
                                                     ),
@@ -607,24 +611,17 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 20, horizontal: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Get.back();
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(15.0),
-                                      child: Text("Close"),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        primary: mainColor),
+                                      primary: mainColor,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          side: BorderSide(color: mainColor)),
+                                    ),
                                     onPressed: () {
                                       if (formKey.currentState!.validate()) {
                                         ActivityModel newActivity =
@@ -649,6 +646,28 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                     child: const Padding(
                                       padding: EdgeInsets.all(15.0),
                                       child: Text("Update Activity"),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Colors.transparent,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          side: BorderSide(color: mainColor)),
+                                    ),
+                                    onPressed: () {
+                                      Get.offAllNamed(Routes.homeScreen);
+                                    },
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(15.0),
+                                      child: Text(
+                                        "Close",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
                                     ),
                                   ),
                                 ],
