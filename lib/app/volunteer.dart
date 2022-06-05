@@ -33,6 +33,14 @@ class Volunteer extends StatelessWidget {
       initialRoute: Routes.splashScreen,
       getPages: Routes.getPages,
       textDirection: TextDirection.ltr,
+      builder: (context, child) {
+        return GestureDetector(
+            onTap: () {
+              WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
+            },
+            behavior: HitTestBehavior.translucent,
+            child: child!);
+      },
     );
   }
 }

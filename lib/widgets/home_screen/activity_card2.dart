@@ -137,8 +137,8 @@ class AcctivityCard2 extends StatelessWidget {
                   ? GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: isMobile ? 3 : 4,
-                          crossAxisSpacing: 10.0,
-                          mainAxisSpacing: 10.0),
+                          crossAxisSpacing: 8.0,
+                          mainAxisSpacing: 8.0),
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
@@ -146,32 +146,39 @@ class AcctivityCard2 extends StatelessWidget {
                                 url: activity.picsUrl![index]);
                           },
                           child: Container(
+                            // decoration: BoxDecoration(
+                            //     borderRadius: BorderRadius.circular(20),
+                            //     border: Border.all(
+                            //         width: 5,
+                            //         color: mainColor.withOpacity(0.5))),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                    width: 5,
-                                    color: mainColor.withOpacity(0.5))),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Center(
-                                child: CachedNetworkImage(
-                                  fadeInCurve: Curves.fastLinearToSlowEaseIn,
-                                  placeholder: (context, url) => Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Center(
-                                      child: CircularProgressIndicator(
-                                        color: mainColor.withOpacity(0.5),
-                                      ),
-                                    ),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      const Center(child: Icon(Icons.error)),
-                                  imageUrl: activity.picsUrl![index],
-                                  width: 200,
-                                  height: 200,
-                                ),
-                              ),
-                            ),
+                                image: DecorationImage(
+                                    image:
+                                        NetworkImage(activity.picsUrl![index]),
+                                    fit: BoxFit.cover)),
+                            width: 200,
+                            height: 200,
+                            // child: ClipRRect(
+                            //   borderRadius: BorderRadius.circular(20),
+                            //   child: Center(
+                            //     child: CachedNetworkImage(
+                            //       fadeInCurve: Curves.fastLinearToSlowEaseIn,
+                            //       placeholder: (context, url) => Padding(
+                            //         padding: const EdgeInsets.all(8.0),
+                            //         child: Center(
+                            //           child: CircularProgressIndicator(
+                            //             color: mainColor.withOpacity(0.5),
+                            //           ),
+                            //         ),
+                            //       ),
+                            //       errorWidget: (context, url, error) =>
+                            //           const Center(child: Icon(Icons.error)),
+                            //       imageUrl: activity.picsUrl![index],
+                            //       width: 200,
+                            //       height: 200,
+                            //     ),
+                            //   ),
+                            // ),
                           ),
                         );
                       },

@@ -29,51 +29,16 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: LayoutBuilder(builder: (context, constraints) {
-        return !isMobile
-            ? SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: constraints.maxWidth / 2,
-                          height: constraints.maxHeight,
-                          decoration: BoxDecoration(
-                            color: mainColor,
-                            image: const DecorationImage(
-                              image: AssetImage("assets/vol.png"),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: GetBuilder<UiController>(
-                            builder: (context) {
-                              return AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 500),
-                                switchInCurve: Curves.easeInBack,
-                                child: controller.isLoginCard
-                                    ? LoginCard()
-                                    : RegisterCard(),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            : SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Scaffold(body: LayoutBuilder(builder: ((context, constraints) {
+      return !isMobile
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
                   children: [
                     Container(
-                      width: constraints.maxWidth,
-                      height: constraints.maxHeight * 0.15,
+                      width: constraints.maxWidth / 2,
+                      height: constraints.maxHeight,
                       decoration: BoxDecoration(
                         color: mainColor,
                         image: const DecorationImage(
@@ -94,8 +59,36 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ],
                 ),
-              );
-      }),
-    );
+              ],
+            )
+          : SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    width: Get.width,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: mainColor,
+                      image: const DecorationImage(
+                        image: AssetImage("assets/vol.png"),
+                      ),
+                    ),
+                  ),
+                  GetBuilder<UiController>(
+                    builder: (context) {
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        switchInCurve: Curves.easeInBack,
+                        child: controller.isLoginCard
+                            ? LoginCard()
+                            : RegisterCard(),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+    })));
   }
 }

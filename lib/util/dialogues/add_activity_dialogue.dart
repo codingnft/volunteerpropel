@@ -1,6 +1,3 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +8,6 @@ import 'package:volunteer/util/dialogues/error_dialogue.dart';
 import 'package:volunteer/util/dialogues/loading_dialogue.dart';
 import 'package:volunteer/util/dialogues/show_image_dialogue.dart';
 import 'package:volunteer/util/helper.dart';
-import 'dart:html' as html;
 
 void addActivityDialogue(BuildContext context) {
   FilePickerResult? pickedFiles;
