@@ -71,7 +71,7 @@ void addActivityDialogue(BuildContext context) {
             // ),
           ],
           title: Text(
-            "Add Activity",
+            "Add Activityyyy",
             style: getAuthCardHeader.copyWith(fontWeight: null),
           ),
           content: SizedBox(
@@ -92,13 +92,13 @@ void addActivityDialogue(BuildContext context) {
                         controller: orgNameCon,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return "Orgaination Name is required";
+                            return "Organization Name is required";
                           }
                           return null;
                         },
                         cursorColor: mainColor,
                         decoration: InputDecoration(
-                          label: const Text("Orgaination Name *"),
+                          label: const Text("Organizatihjghhjvhjon Name *"),
                           contentPadding: const EdgeInsets.all(20),
                           floatingLabelStyle: TextStyle(color: mainColor),
                           border: const OutlineInputBorder(),

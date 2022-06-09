@@ -62,16 +62,17 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                             horizontal: 30, vertical: 20),
                         child: TextFormField(
                           controller: orgNameCon,
-                          maxLength: 50,
+                          maxLength: 100,
+                          maxLines: 2,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return "Orgaination Name is required";
+                              return "Organization Name is required";
                             }
                             return null;
                           },
                           cursorColor: mainColor,
                           decoration: InputDecoration(
-                              label: const Text("Orgaination Name *"),
+                              label: const Text("Organization Name *"),
                               contentPadding: const EdgeInsets.all(20),
                               floatingLabelStyle: TextStyle(color: mainColor),
                               border: getInputBorder(),
@@ -98,6 +99,18 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                 //     ],
                                 //   ),
                                 // ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  child: Row(
+                                    children: const [
+                                      Text(
+                                        "Duration",
+                                        style: TextStyle(fontSize: 18),
+                                      )
+                                    ],
+                                  ),
+                                ),
                                 Container(
                                   decoration: BoxDecoration(
                                       border: Border.all(
@@ -217,7 +230,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                             horizontal: 30, vertical: 20),
                         child: TextFormField(
                           controller: notesCon,
-                          maxLength: 500,
+                          maxLength: 2000,
                           maxLines: 8,
                           cursorColor: mainColor,
                           decoration: InputDecoration(
@@ -306,9 +319,9 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
+                                                    // borderRadius:
+                                                    //     BorderRadius.circular(
+                                                    //         10),
                                                     image: DecorationImage(
                                                         image: MemoryImage(
                                                           pickedFiles!

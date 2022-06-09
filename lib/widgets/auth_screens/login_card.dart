@@ -14,7 +14,7 @@ class LoginCard extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  static final formKey = GlobalKey<FormState>();
+  static final loginFormKey = GlobalKey<FormState>();
 
   @override
   State<LoginCard> createState() => _LoginCardState();
@@ -38,7 +38,7 @@ class _LoginCardState extends State<LoginCard> {
     return SizedBox(
       width: Get.width < 700 ? Get.width * 0.9 : Get.width / 2.5,
       child: Form(
-        key: LoginCard.formKey,
+        key: LoginCard.loginFormKey,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -205,7 +205,7 @@ class _LoginCardState extends State<LoginCard> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50))),
                     onPressed: () {
-                      if (LoginCard.formKey.currentState!.validate()) {
+                      if (LoginCard.loginFormKey.currentState!.validate()) {
                         authController.login(context,
                             email: emailCon.text, password: passCon.text);
                       }

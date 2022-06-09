@@ -95,14 +95,14 @@ class AcctivityCard2 extends StatelessWidget {
                   children: [
                     Text(
                       "${getFormattedDate(activity.dateFrom)},",
-                      style: TextStyle(color: Colors.grey[500]),
+                      style: const TextStyle(color: Colors.black, fontSize: 16),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     Text(
                       "${activity.hours.toString()} hour",
-                      style: TextStyle(color: Colors.grey[500]),
+                      style: const TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   ],
                 ),
@@ -123,18 +123,17 @@ class AcctivityCard2 extends StatelessWidget {
               activity.notes != null
                   ? ReadMoreText(
                       activity.notes!,
-                      trimLines: 3,
-                      style: TextStyle(
-                        color: Colors.grey[500],
-                      ),
+                      trimLines: 2,
+                      style: const TextStyle(color: Colors.black, fontSize: 16),
                     )
                   : const SizedBox.shrink(),
 
               const SizedBox(
-                height: 20,
+                height: 40,
               ),
               activity.picsUrl != null
                   ? GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: isMobile ? 3 : 4,
                           crossAxisSpacing: 8.0,

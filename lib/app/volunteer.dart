@@ -36,7 +36,7 @@ class Volunteer extends StatelessWidget {
       builder: (context, child) {
         return GestureDetector(
             onTap: () {
-              WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
+              // WidgetsBinding.instance?.focusManager.primaryFocus?.unfocus();
             },
             behavior: HitTestBehavior.translucent,
             child: child!);

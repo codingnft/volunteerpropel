@@ -100,19 +100,31 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                 controller: orgNameCon,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return "Orgaination Name is required";
+                                    return "Organization Name is required";
                                   }
                                   return null;
                                 },
                                 cursorColor: mainColor,
                                 decoration: InputDecoration(
-                                  label: const Text("Orgaination Name *"),
-                                  contentPadding: const EdgeInsets.all(20),
+                                  label: const Text("Organization Name *"),
+                                  contentPadding: const EdgeInsets.all(30),
                                   floatingLabelStyle:
                                       TextStyle(color: mainColor),
                                   border: getInputBorder(),
                                   focusedBorder: getInputBorder(),
                                 ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 30),
+                              child: Row(
+                                children: const [
+                                  Text(
+                                    "Duration",
+                                    style: TextStyle(fontSize: 18),
+                                  )
+                                ],
                               ),
                             ),
                             Padding(
@@ -250,7 +262,7 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                   horizontal: 30, vertical: 20),
                               child: TextFormField(
                                 controller: notesCon,
-                                maxLength: 500,
+                                maxLength: 2000,
                                 maxLines: 8,
                                 cursorColor: mainColor,
                                 decoration: InputDecoration(
@@ -373,9 +385,9 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                                     },
                                                     child: Container(
                                                       decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
+                                                          // borderRadius:
+                                                          //     BorderRadius
+                                                          //         .circular(10),
                                                           image:
                                                               DecorationImage(
                                                                   image:
@@ -492,8 +504,8 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                           ? Get.width * 0.95
                                           : Get.width * 0.6,
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                                          // borderRadius:
+                                          //     BorderRadius.circular(20),
                                           border: Border.all(color: mainColor)),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -517,9 +529,9 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                                             .picsUrl![index]);
                                                   },
                                                   child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
+                                                    // borderRadius:
+                                                    //     BorderRadius.circular(
+                                                    //         10),
                                                     child: Center(
                                                       child: CachedNetworkImage(
                                                         fadeInCurve: Curves
