@@ -35,6 +35,7 @@ class AcctivityCard2 extends StatelessWidget {
                   SizedBox(
                     width: constraints.maxWidth / 1.7,
                     child: RichText(
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       strutStyle: const StrutStyle(fontSize: 30.0),
                       text: TextSpan(

@@ -96,7 +96,8 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 20),
                               child: TextFormField(
-                                maxLength: 50,
+                                maxLength: 100,
+                                maxLines: 2,
                                 controller: orgNameCon,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
