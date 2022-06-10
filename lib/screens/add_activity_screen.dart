@@ -63,7 +63,6 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                         child: TextFormField(
                           controller: orgNameCon,
                           maxLength: 100,
-                          maxLines: 2,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Organization Name is required";

@@ -97,7 +97,6 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                   horizontal: 30, vertical: 20),
                               child: TextFormField(
                                 maxLength: 100,
-                                maxLines: 2,
                                 controller: orgNameCon,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
