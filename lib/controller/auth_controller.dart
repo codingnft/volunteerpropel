@@ -47,7 +47,7 @@ class AuthController extends GetxController {
   }
 
   Future<String?> intializeCurrentUserHomeScreen() async {
-    Future.delayed(Duration(seconds: 2), () async {
+    Future.delayed(const Duration(seconds: 2), () async {
       if (firebaseAuth.currentUser != null) {
         currentUser = await authRepo.getCurrentUser();
         return firebaseAuth.currentUser!.uid;
@@ -63,7 +63,8 @@ class AuthController extends GetxController {
       required String email}) async {
     try {
       showLoadingDialogue(context);
-      UserModel user = UserModel(uid: "", name: name, email: email);
+      UserModel user = UserModel(
+          uid: "", name: name, email: email, dateJoined: Timestamp.now());
       currentUser = await authRepo.register(user: user, password: password);
       Get.offAllNamed(Routes.homeScreen);
     } on FirebaseAuthException catch (e) {
@@ -126,10 +127,10 @@ class AuthController extends GetxController {
           currentUser = await authRepo.getCurrentUser();
         } catch (e) {
           UserModel user = UserModel(
-            uid: uid,
-            name: googleUser.displayName!,
-            email: googleUser.email,
-          );
+              uid: uid,
+              name: googleUser.displayName!,
+              email: googleUser.email,
+              dateJoined: Timestamp.now());
           await authRepo.createUserSocial(user);
           currentUser = user;
         }

@@ -14,6 +14,7 @@ import 'package:volunteer/routes/routes.dart';
 import 'package:volunteer/screens/add_activity_screen.dart';
 import 'package:volunteer/util/const.dart';
 import 'package:volunteer/util/dialogues/add_activity_dialogue.dart';
+import 'package:volunteer/util/dialogues/summary_dialogue.dart';
 import 'package:volunteer/util/helper.dart';
 import 'package:volunteer/widgets/home_screen/activity_card.dart';
 import 'package:volunteer/widgets/home_screen/activity_card2.dart';
@@ -130,25 +131,50 @@ class _HomeScreenState extends State<HomeScreen> {
               }),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: mainColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            side: BorderSide(color: mainColor)),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: mainColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              side: BorderSide(color: mainColor)),
+                        ),
+                        onPressed: () {
+                          Get.toNamed(Routes.addActivityScreen);
+                          // addActivityDialogue(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text(
+                            "Add Activity",
+                            style: GoogleFonts.lato(fontSize: 16),
+                          ),
+                        ),
                       ),
-                      onPressed: () {
-                        Get.toNamed(Routes.addActivityScreen);
-                        // addActivityDialogue(context);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Text(
-                          "Add Activity",
-                          style: GoogleFonts.lato(fontSize: 16),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: mainColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              side: BorderSide(color: mainColor)),
+                        ),
+                        onPressed: () {
+                          summaryDialogue(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Text(
+                            "Summary",
+                            style: GoogleFonts.lato(fontSize: 16),
+                          ),
                         ),
                       ),
                     ),

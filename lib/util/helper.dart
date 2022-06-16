@@ -17,6 +17,17 @@ TextStyle get getAuthCardHeader => GoogleFonts.lato(
       color: Colors.black,
     );
 
+TextStyle get summarySubtitle => GoogleFonts.lato(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: mainColor,
+    );
+TextStyle get summaryTitle => GoogleFonts.lato(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      color: mainColor,
+    );
+
 OutlineInputBorder getInputBorder() {
   return OutlineInputBorder(
     borderRadius: BorderRadius.circular(50),

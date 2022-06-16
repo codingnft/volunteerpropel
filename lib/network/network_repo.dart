@@ -59,4 +59,18 @@ class NetworkRepo {
       rethrow;
     }
   }
+
+  Future<List<ActivityModel>> getAllActivities() async {
+    try {
+      return (await firestore
+              .collection("activities")
+              .where("uid", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+              .get())
+          .docs
+          .map((e) => ActivityModel.fromJson(e.data()))
+          .toList();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

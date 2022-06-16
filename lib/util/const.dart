@@ -19,3 +19,5 @@ List<double> hoursList = [
   7.5,
   8
 ];
+
+const String summaryBuilder = "summaryBuilder";

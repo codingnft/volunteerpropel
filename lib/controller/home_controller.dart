@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
+import 'package:volunteer/controller/auth_controller.dart';
 import 'package:volunteer/models/activity_model.dart';
 import 'package:volunteer/network/network_repo.dart';
 import 'package:volunteer/routes/routes.dart';
@@ -31,6 +32,7 @@ class HomeController extends GetxController {
   Future<void> addActivity(BuildContext context,
       {required String orgName,
       required String? notes,
+      required double hours,
       required FilePickerResult? pickedFiles}) async {
     try {
       if (dateFrom == null) {
@@ -150,7 +152,7 @@ class HomeController extends GetxController {
     }
   }
 
-  double hours = hoursList.first;
+  // double hours = hoursList.first;
   DateTime? dateFrom;
   DateTime? dateTo;
   TextEditingController dateFromCon = TextEditingController();
@@ -168,8 +170,24 @@ class HomeController extends GetxController {
     update();
   }
 
-  void changeHours(double value) {
-    hours = value;
-    update();
+  // void changeHours(double value) {
+  //   hours = value;
+  //   update();
+  // }
+
+  // For Summary
+  List<ActivityModel> allActivities = List.empty(growable: true);
+  bool isGettingAllActivities = false;
+
+  Future<void> getAllActivities() async {
+    try {
+      isGettingAllActivities = true;
+      allActivities = await network.getAllActivities();
+      await Get.find<AuthController>().initCurrentUser();
+      isGettingAllActivities = false;
+      update([summaryBuilder]);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

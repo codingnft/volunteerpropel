@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:file_picker/_internal/file_picker_web.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:volunteer/controller/home_controller.dart';
 import 'package:volunteer/routes/routes.dart';
@@ -23,6 +24,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
   final formKey = GlobalKey<FormState>();
   final orgNameCon = TextEditingController();
   final notesCon = TextEditingController();
+  final hoursCon = TextEditingController();
   final homeController = Get.find<HomeController>();
 
   int imageCount = 0;
@@ -79,64 +81,81 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                               disabledBorder: getInputBorder()),
                         ),
                       ),
-                      GetBuilder<HomeController>(
-                        builder: (context) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Column(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Padding(
-                                //   padding:
-                                //       const EdgeInsets.symmetric(vertical: 10),
-                                //   child: Row(
-                                //     children: const [
-                                //       Text(
-                                //         "Hours",
-                                //         style: TextStyle(fontSize: 18),
-                                //       ),
-                                //     ],
-                                //   ),
-                                // ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Row(
-                                    children: const [
-                                      Text(
-                                        "Duration",
-                                        style: TextStyle(fontSize: 18),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 1, color: mainColor),
-                                      borderRadius: BorderRadius.circular(20)),
-                                  child: DropdownButton<double>(
-                                      isExpanded: true,
-                                      underline: const SizedBox(),
-                                      borderRadius: BorderRadius.circular(10),
-                                      value: homeController.hours,
-                                      items: hoursList
-                                          .map((e) => DropdownMenuItem(
-                                              value: e,
-                                              child: Text(
-                                                "${e.toString()} hrs",
-                                                style: const TextStyle(
-                                                    fontSize: 18),
-                                              )))
-                                          .toList(),
-                                      onChanged: (value) {
-                                        homeController.changeHours(value!);
-                                      }),
-                                ),
-                              ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Column(
+                          // crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Padding(
+                            //   padding:
+                            //       const EdgeInsets.symmetric(vertical: 10),
+                            //   child: Row(
+                            //     children: const [
+                            //       Text(
+                            //         "Hours",
+                            //         style: TextStyle(fontSize: 18),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                children: const [
+                                  Text(
+                                    "Duration",
+                                    style: TextStyle(fontSize: 18),
+                                  )
+                                ],
+                              ),
                             ),
-                          );
-                        },
+                            TextFormField(
+                              controller: hoursCon,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Duration is required";
+                                }
+                                return null;
+                              },
+                              cursorColor: mainColor,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'^\d+\.?\d{0,2}'))
+                              ],
+                              decoration: InputDecoration(
+                                  hintText: "1, 2, 4.5",
+                                  contentPadding: const EdgeInsets.all(20),
+                                  floatingLabelStyle:
+                                      TextStyle(color: mainColor),
+                                  border: getInputBorder(),
+                                  focusedBorder: getInputBorder(),
+                                  disabledBorder: getInputBorder()),
+                            ),
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //       border: Border.all(
+                            //           width: 1, color: mainColor),
+                            //       borderRadius: BorderRadius.circular(20)),
+                            //   child: DropdownButton<double>(
+                            //       isExpanded: true,
+                            //       underline: const SizedBox(),
+                            //       borderRadius: BorderRadius.circular(10),
+                            //       value: homeController.hours,
+                            //       items: hoursList
+                            //           .map((e) => DropdownMenuItem(
+                            //               value: e,
+                            //               child: Text(
+                            //                 "${e.toString()} hrs",
+                            //                 style: const TextStyle(
+                            //                     fontSize: 18),
+                            //               )))
+                            //           .toList(),
+                            //       onChanged: (value) {
+                            //         homeController.changeHours(value!);
+                            //       }),
+                            // ),
+                          ],
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -418,6 +437,8 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                 if (formKey.currentState!.validate()) {
                                   homeController.addActivity(context,
                                       orgName: orgNameCon.text,
+                                      hours:
+                                          double.tryParse(hoursCon.text) ?? 1,
                                       notes: notesCon.text.isEmpty
                                           ? null
                                           : notesCon.text,

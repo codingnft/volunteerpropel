@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:volunteer/controller/home_controller.dart';
@@ -22,6 +23,7 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
   final formKey = GlobalKey<FormState>();
   final orgNameCon = TextEditingController();
   final notesCon = TextEditingController();
+  final hoursCon = TextEditingController();
   final homeController = Get.find<HomeController>();
   List<String> urlsList = List.empty(growable: true);
   int imageCount = 0;
@@ -37,6 +39,7 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
           if (args!.activity.notes != null) {
             notesCon.text = args!.activity.notes!;
           }
+          hoursCon.text = args!.activity.hours.toString();
           imageCount = args!.activity.picsUrl != null &&
                   args!.activity.picsUrl!.isNotEmpty
               ? args!.activity.picsUrl!.length
@@ -123,48 +126,75 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                   Text(
                                     "Duration",
                                     style: TextStyle(fontSize: 18),
-                                  )
+                                  ),
                                 ],
                               ),
                             ),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border:
-                                        Border.all(width: 1, color: mainColor),
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: GetBuilder<HomeController>(
-                                  builder: (context) {
-                                    return Column(
-                                      // crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        DropdownButton<double>(
-                                            isExpanded: true,
-                                            underline: const SizedBox(),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            value: homeController.hours,
-                                            items: hoursList
-                                                .map((e) => DropdownMenuItem(
-                                                    value: e,
-                                                    child: Text(
-                                                      "${e.toString()} hrs",
-                                                      style: const TextStyle(
-                                                          fontSize: 18),
-                                                    )))
-                                                .toList(),
-                                            onChanged: (value) {
-                                              homeController
-                                                  .changeHours(value!);
-                                            }),
-                                      ],
-                                    );
-                                  },
-                                ),
+                              child: TextFormField(
+                                controller: hoursCon,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Duration is required";
+                                  }
+                                  return null;
+                                },
+                                cursorColor: mainColor,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d+\.?\d{0,2}'))
+                                ],
+                                decoration: InputDecoration(
+                                    hintText: "1, 2, 4.5",
+                                    contentPadding: const EdgeInsets.all(20),
+                                    floatingLabelStyle:
+                                        TextStyle(color: mainColor),
+                                    border: getInputBorder(),
+                                    focusedBorder: getInputBorder(),
+                                    disabledBorder: getInputBorder()),
                               ),
                             ),
+
+                            // Padding(
+                            //   padding:
+                            //       const EdgeInsets.symmetric(horizontal: 30),
+                            //   child: Container(
+                            //     decoration: BoxDecoration(
+                            //         border:
+                            //             Border.all(width: 1, color: mainColor),
+                            //         borderRadius: BorderRadius.circular(20)),
+                            //     child: GetBuilder<HomeController>(
+                            //       builder: (context) {
+                            //         return Column(
+                            //           // crossAxisAlignment: CrossAxisAlignment.start,
+                            //           children: [
+                            //             DropdownButton<double>(
+                            //                 isExpanded: true,
+                            //                 underline: const SizedBox(),
+                            //                 borderRadius:
+                            //                     BorderRadius.circular(10),
+                            //                 value: homeController.hours,
+                            //                 items: hoursList
+                            //                     .map((e) => DropdownMenuItem(
+                            //                         value: e,
+                            //                         child: Text(
+                            //                           "${e.toString()} hrs",
+                            //                           style: const TextStyle(
+                            //                               fontSize: 18),
+                            //                         )))
+                            //                     .toList(),
+                            //                 onChanged: (value) {
+                            //                   homeController
+                            //                       .changeHours(value!);
+                            //                 }),
+                            //           ],
+                            //         );
+                            //       },
+                            //     ),
+                            //   ),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 20),
@@ -627,7 +657,7 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                           uid: args!.activity.uid,
                                           activityId: args!.activity.activityId,
                                           organizationName: orgNameCon.text,
-                                          hours: homeController.hours,
+                                          hours: double.parse(hoursCon.text),
                                           dateFrom: homeController.dateFrom!,
                                           dateTo: homeController.dateTo,
                                           dateCreated:
