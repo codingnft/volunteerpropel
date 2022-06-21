@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,6 +20,7 @@ class AcctivityCard2 extends StatelessWidget {
   final homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
+    // log(activity.organizationName.isEmpty.toString());
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
         decoration: BoxDecoration(
@@ -32,20 +35,22 @@ class AcctivityCard2 extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: constraints.maxWidth / 1.7,
-                    child: RichText(
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      strutStyle: const StrutStyle(fontSize: 30.0),
-                      text: TextSpan(
-                          style: TextStyle(
-                              color: mainColor,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold),
-                          text: activity.organizationName),
-                    ),
-                  ),
+                  activity.organizationName.isNotEmpty
+                      ? SizedBox(
+                          width: constraints.maxWidth / 1.7,
+                          child: RichText(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            strutStyle: const StrutStyle(fontSize: 30.0),
+                            text: TextSpan(
+                                style: TextStyle(
+                                    color: mainColor,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold),
+                                text: activity.organizationName),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                   Row(
                     children: [
                       InkWell(

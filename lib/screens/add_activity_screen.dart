@@ -65,15 +65,15 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                         child: TextFormField(
                           controller: orgNameCon,
                           maxLength: 100,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Organization Name is required";
-                            }
-                            return null;
-                          },
+                          // validator: (value) {
+                          //   if (value == null || value.isEmpty) {
+                          //     return "Organization Name is required";
+                          //   }
+                          //   return null;
+                          // },
                           cursorColor: mainColor,
                           decoration: InputDecoration(
-                              label: const Text("Organization Name *"),
+                              label: const Text("Activity Name"),
                               contentPadding: const EdgeInsets.all(20),
                               floatingLabelStyle: TextStyle(color: mainColor),
                               border: getInputBorder(),
@@ -115,8 +115,12 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                 if (value == null || value.isEmpty) {
                                   return "Duration is required";
                                 }
+                                if (int.tryParse(value)! >= 100) {
+                                  return "Hours limit are 100";
+                                }
                                 return null;
                               },
+                              maxLength: 3,
                               cursorColor: mainColor,
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
