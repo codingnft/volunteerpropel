@@ -28,6 +28,23 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
   final homeController = Get.find<HomeController>();
 
   int imageCount = 0;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      try {
+        final args = Get.arguments as AddActivityArgs;
+        if (args.isFromHome == null) {
+          Get.offAllNamed(Routes.homeScreen);
+        }
+      } catch (e) {
+        Get.offAllNamed(Routes.homeScreen);
+      }
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -525,4 +542,9 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
           )),
         ));
   }
+}
+
+class AddActivityArgs {
+  bool? isFromHome;
+  AddActivityArgs({this.isFromHome});
 }

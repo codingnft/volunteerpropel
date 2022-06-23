@@ -91,103 +91,115 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: Center(
-        child: SizedBox(
-          width: isMobile ? double.infinity : Get.width / 1.8,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GetBuilder<AuthController>(builder: (context2) {
-                return authController.query == null ||
-                        FirebaseAuth.instance.currentUser == null
-                    ? const SizedBox()
-                    : Expanded(
-                        child: FirestoreListView<ActivityModel>(
-                          shrinkWrap: true,
-                          pageSize: 5,
-                          loadingBuilder: (context) => Center(
-                            child: CircularProgressIndicator(
-                              color: mainColor,
-                            ),
-                          ),
-                          errorBuilder: (context, error, stk) => const Center(
-                            child: Text(
-                              "OOPS! Something went wrong.",
-                              style: TextStyle(color: Colors.red, fontSize: 20),
-                            ),
-                          ),
-                          query: authController.query!,
-                          itemBuilder: (context, snapshot) {
-                            final activity = snapshot.data();
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 15),
-                              child: AcctivityCard2(activity: activity),
-                            );
-                          },
-                        ),
-                      );
-              }),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: mainColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              side: BorderSide(color: mainColor)),
-                        ),
-                        onPressed: () {
-                          Get.toNamed(Routes.addActivityScreen);
-                          // addActivityDialogue(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text(
-                            "Add Activity",
-                            style: GoogleFonts.lato(fontSize: 16),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: mainColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              side: BorderSide(color: mainColor)),
-                        ),
-                        onPressed: () {
-                          summaryDialogue(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Text(
-                            "Summary",
-                            style: GoogleFonts.lato(fontSize: 16),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+      body: GetBuilder<HomeController>(builder: (ss) {
+        return homeController.isLoading
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: mainColor,
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-            ],
-          ),
-        ),
-      ),
+              )
+            : Center(
+                child: SizedBox(
+                  width: isMobile ? double.infinity : Get.width / 1.8,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GetBuilder<AuthController>(builder: (context2) {
+                        return authController.query == null ||
+                                FirebaseAuth.instance.currentUser == null
+                            ? const SizedBox()
+                            : Expanded(
+                                child: FirestoreListView<ActivityModel>(
+                                  shrinkWrap: true,
+                                  pageSize: 5,
+                                  loadingBuilder: (context) => Center(
+                                    child: CircularProgressIndicator(
+                                      color: mainColor,
+                                    ),
+                                  ),
+                                  errorBuilder: (context, error, stk) =>
+                                      const Center(
+                                    child: Text(
+                                      "OOPS! Something went wrong.",
+                                      style: TextStyle(
+                                          color: Colors.red, fontSize: 20),
+                                    ),
+                                  ),
+                                  query: authController.query!,
+                                  itemBuilder: (context, snapshot) {
+                                    final activity = snapshot.data();
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 15),
+                                      child: AcctivityCard2(activity: activity),
+                                    );
+                                  },
+                                ),
+                              );
+                      }),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: mainColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      side: BorderSide(color: mainColor)),
+                                ),
+                                onPressed: () {
+                                  Get.toNamed(Routes.addActivityScreen,
+                                      arguments:
+                                          AddActivityArgs(isFromHome: true));
+                                  // addActivityDialogue(context);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Text(
+                                    "Add Activity",
+                                    style: GoogleFonts.lato(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: mainColor,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      side: BorderSide(color: mainColor)),
+                                ),
+                                onPressed: () {
+                                  summaryDialogue(context);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Text(
+                                    "Summary",
+                                    style: GoogleFonts.lato(fontSize: 16),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+      }),
     );
   }
 }

@@ -16,7 +16,7 @@ class Routes {
     GetPage(name: splashScreen, page: () => const SplashScreen()),
     GetPage(name: authScreen, page: () => AuthScreen()),
     GetPage(name: homeScreen, page: () => HomeScreen()),
-    GetPage(name: addActivityScreen, page: () => const AddActivityScreen()),
+    GetPage(name: addActivityScreen, page: () => AddActivityScreen()),
     GetPage(name: editActivityScreen, page: () => EditActivityScreen()),
   ];
 }

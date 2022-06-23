@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:uuid/uuid.dart';
 import 'package:volunteer/controller/auth_controller.dart';
 import 'package:volunteer/models/activity_model.dart';
+import 'package:volunteer/models/organization_model.dart';
 import 'package:volunteer/network/network_repo.dart';
 import 'package:volunteer/routes/routes.dart';
 import 'package:volunteer/util/const.dart';
@@ -17,6 +18,52 @@ import 'package:volunteer/util/dialogues/loading_dialogue.dart';
 import 'package:volunteer/util/helper.dart';
 
 class HomeController extends GetxController {
+  List<OrganizationModel> organizationsList = List.empty(growable: true);
+  bool isLoading = false;
+  @override
+  Future<void> onInit() async {
+    getOrgs();
+    super.onInit();
+  }
+
+  Future<void> getOrgs() async {
+    // final orgId = const Uuid().v1();
+    // final org = OrganizationModel(
+    //     organizationId: orgId,
+    //     name: "xyz",
+    //     description: "iadwn i",
+    //     logoUrl: "Awd",
+    //     phone: "+214124124",
+    //     contactName: "wdadawidn",
+    //     contactEmail: "awndnawidn iaownd",
+    //     contactPhone: "+234324",
+    //     address: "wanoidw",
+    //     websiteUrl: "wnaodnwa",
+    //     dateCreated: Timestamp.now());
+
+    // await FirebaseFirestore.instance
+    //     .collection("organizations")
+    //     .doc(orgId)
+    //     .set(org.toJson());
+
+    try {
+      isLoading = true;
+      final docs =
+          (await FirebaseFirestore.instance.collection("organizations").get())
+              .docs;
+
+      docs.forEach((element) {
+        organizationsList.add(OrganizationModel.fromJson(element.data()));
+      });
+      isLoading = false;
+      update();
+    } catch (e) {
+      isLoading = false;
+      update();
+      log(e.toString());
+    }
+  }
+
   final network = NetworkRepo();
 
   final storage = FirebaseStorage.instance;
