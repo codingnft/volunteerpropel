@@ -12,6 +12,7 @@ class OrganizationModel {
     required this.contactPhone,
     required this.address,
     required this.websiteUrl,
+    required this.isActive,
     required this.dateCreated,
   });
 
@@ -25,6 +26,7 @@ class OrganizationModel {
   String contactPhone;
   String address;
   String websiteUrl;
+  bool isActive;
   Timestamp dateCreated;
 
   factory OrganizationModel.fromJson(Map<String, dynamic> json) =>
@@ -39,6 +41,7 @@ class OrganizationModel {
         contactPhone: json["contactPhone"],
         address: json["address"],
         websiteUrl: json["websiteUrl"],
+        isActive: json["isActive"],
         dateCreated: json["dateCreated"],
       );
 
@@ -53,6 +56,7 @@ class OrganizationModel {
         "contactPhone": contactPhone,
         "address": address,
         "websiteUrl": websiteUrl,
+        "isActive": isActive,
         "dateCreated": dateCreated,
       };
 }

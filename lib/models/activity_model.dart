@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ActivityModel {
   String uid;
   String activityId;
+  String? organizationId;
   String organizationName;
   double hours;
   DateTime dateFrom;
@@ -14,6 +15,7 @@ class ActivityModel {
   ActivityModel({
     required this.uid,
     required this.activityId,
+    this.organizationId,
     required this.organizationName,
     required this.hours,
     required this.dateFrom,
@@ -26,6 +28,7 @@ class ActivityModel {
   factory ActivityModel.fromJson(Map<String, dynamic> json) => ActivityModel(
       uid: json["uid"],
       activityId: json["activityId"],
+      organizationId: json["organizationId"],
       organizationName: json["organizationName"],
       hours: json["hours"],
       dateFrom: (json["dateFrom"] is Timestamp)
@@ -43,6 +46,7 @@ class ActivityModel {
   Map<String, dynamic> toJson() => {
         "uid": uid,
         "activityId": activityId,
+        "organizationId": organizationId,
         "organizationName": organizationName,
         "hours": hours,
         "dateFrom": dateFrom,

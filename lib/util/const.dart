@@ -21,3 +21,5 @@ List<double> hoursList = [
 ];
 
 const String summaryBuilder = "summaryBuilder";
+
+const String notInList = "Not in list";

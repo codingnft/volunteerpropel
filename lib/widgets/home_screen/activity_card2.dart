@@ -32,22 +32,65 @@ class AcctivityCard2 extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Builder(builder: (context) {
+                if (activity.organizationId != null) {
+                  final isFound = homeController.organizationsList
+                      .firstWhereOrNull((element) =>
+                          element.organizationId == activity.organizationId);
+                  if (isFound != null) {
+                    return SizedBox(
+                      width: constraints.maxWidth / 1.7,
+                      child: RichText(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        strutStyle: const StrutStyle(fontSize: 30.0),
+                        text: TextSpan(
+                            style: TextStyle(
+                                color: mainColor,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold),
+                            text: isFound.name),
+                      ),
+                    );
+                  } else {
+                    return SizedBox(
+                      width: constraints.maxWidth / 1.7,
+                      child: RichText(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        strutStyle: const StrutStyle(fontSize: 30.0),
+                        text: TextSpan(
+                            style: TextStyle(
+                                color: mainColor,
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold),
+                            text: activity.organizationId),
+                      ),
+                    );
+                  }
+                } else {
+                  return const SizedBox.shrink();
+                }
+              }),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   activity.organizationName.isNotEmpty
-                      ? SizedBox(
-                          width: constraints.maxWidth / 1.7,
-                          child: RichText(
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            strutStyle: const StrutStyle(fontSize: 30.0),
-                            text: TextSpan(
-                                style: TextStyle(
-                                    color: mainColor,
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold),
-                                text: activity.organizationName),
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: SizedBox(
+                            width: constraints.maxWidth / 1.7,
+                            child: RichText(
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              strutStyle: const StrutStyle(fontSize: 30.0),
+                              text: TextSpan(
+                                  style: TextStyle(
+                                      color: mainColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                  text: "${activity.organizationName}"),
+                            ),
                           ),
                         )
                       : const SizedBox.shrink(),

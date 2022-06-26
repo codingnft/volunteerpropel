@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ import 'package:volunteer/controller/home_controller.dart';
 import 'package:volunteer/models/activity_model.dart';
 import 'package:volunteer/routes/routes.dart';
 import 'package:volunteer/util/const.dart';
+import 'package:volunteer/util/dialogues/error_dialogue.dart';
 import 'package:volunteer/util/dialogues/show_image_dialogue.dart';
 import 'package:volunteer/util/helper.dart';
 
@@ -24,6 +27,8 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
   final orgNameCon = TextEditingController();
   final notesCon = TextEditingController();
   final hoursCon = TextEditingController();
+  final organizationSelected = TextEditingController();
+  bool isShowingDropDown = true;
   final homeController = Get.find<HomeController>();
   List<String> urlsList = List.empty(growable: true);
   int imageCount = 0;
@@ -32,12 +37,27 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       if (ModalRoute.of(context)!.settings.arguments != null) {
-        print("Not null");
         args = ModalRoute.of(context)!.settings.arguments as EditScreenArgs;
         setState(() {
           orgNameCon.text = args!.activity.organizationName;
           if (args!.activity.notes != null) {
             notesCon.text = args!.activity.notes!;
+          }
+          if (args!.activity.organizationId != null) {
+            final isInList = homeController.organizationsList.firstWhereOrNull(
+                (element) =>
+                    element.organizationId == args!.activity.organizationId);
+            log(isInList.toString());
+            if (isInList != null) {
+              log("Not NUll");
+              organizationSelected.text = args!.activity.organizationId!;
+            } else {
+              log(" NUll");
+              setState(() {
+                organizationSelected.text = args!.activity.organizationId!;
+                isShowingDropDown = false;
+              });
+            }
           }
           hoursCon.text = args!.activity.hours.toString();
           imageCount = args!.activity.picsUrl != null &&
@@ -95,6 +115,89 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                             SizedBox(
                               height: Get.height * 0.1,
                             ),
+                            isShowingDropDown &&
+                                    organizationSelected.text != notInList
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30),
+                                    child: Card(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        child: DropdownButton<String>(
+                                            value: organizationSelected
+                                                    .text.isNotEmpty
+                                                ? organizationSelected.text
+                                                : null,
+                                            isExpanded: true,
+                                            underline: const SizedBox(),
+                                            hint: const Text(
+                                                "Choose Organization"),
+                                            items: [
+                                              const DropdownMenuItem(
+                                                child: Text(
+                                                  notInList,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                value: notInList,
+                                              ),
+                                              ...homeController
+                                                  .organizationsList
+                                                  .map(
+                                                (e) {
+                                                  return DropdownMenuItem(
+                                                    child: Text(e.name),
+                                                    value: e.organizationId,
+                                                  );
+                                                },
+                                              ),
+                                            ],
+                                            onChanged: (val) {
+                                              setState(() {
+                                                organizationSelected.text =
+                                                    val!;
+                                                if (val == notInList) {
+                                                  organizationSelected.text =
+                                                      "";
+                                                  isShowingDropDown = false;
+                                                }
+                                              });
+                                            }),
+                                      ),
+                                    ),
+                                  )
+                                : Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 30, vertical: 20),
+                                    child: TextFormField(
+                                      controller: organizationSelected,
+                                      maxLength: 100,
+                                      cursorColor: mainColor,
+                                      decoration: InputDecoration(
+                                          suffixIcon: IconButton(
+                                            icon: const Icon(
+                                              Icons.arrow_drop_down,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                organizationSelected.text = "";
+                                                isShowingDropDown = true;
+                                              });
+                                            },
+                                          ),
+                                          label:
+                                              const Text("Organization Name"),
+                                          contentPadding:
+                                              const EdgeInsets.all(20),
+                                          floatingLabelStyle:
+                                              TextStyle(color: mainColor),
+                                          border: getInputBorder(),
+                                          focusedBorder: getInputBorder(),
+                                          disabledBorder: getInputBorder()),
+                                    ),
+                                  ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 20),
@@ -655,11 +758,18 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                           side: BorderSide(color: mainColor)),
                                     ),
                                     onPressed: () {
+                                      if (organizationSelected.text.isEmpty) {
+                                        showErrorDialogue(context,
+                                            msg: "Organization is required");
+                                        return;
+                                      }
                                       if (formKey.currentState!.validate()) {
                                         ActivityModel newActivity =
                                             ActivityModel(
                                           uid: args!.activity.uid,
                                           activityId: args!.activity.activityId,
+                                          organizationId:
+                                              organizationSelected.text,
                                           organizationName: orgNameCon.text,
                                           hours: double.parse(hoursCon.text),
                                           dateFrom: homeController.dateFrom!,

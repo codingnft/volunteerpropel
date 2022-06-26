@@ -25,7 +25,9 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
   final orgNameCon = TextEditingController();
   final notesCon = TextEditingController();
   final hoursCon = TextEditingController();
+  final organizationSelected = TextEditingController();
   final homeController = Get.find<HomeController>();
+  bool isShowingDropDown = true;
 
   int imageCount = 0;
 
@@ -76,6 +78,81 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                       SizedBox(
                         height: Get.height * 0.1,
                       ),
+                      isShowingDropDown &&
+                              organizationSelected.text != notInList
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: Card(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: DropdownButton<String>(
+                                      value:
+                                          organizationSelected.text.isNotEmpty
+                                              ? organizationSelected.text
+                                              : null,
+                                      isExpanded: true,
+                                      underline: const SizedBox(),
+                                      hint: const Text("Choose Organization"),
+                                      items: [
+                                        const DropdownMenuItem(
+                                          child: Text(
+                                            notInList,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          value: notInList,
+                                        ),
+                                        ...homeController.organizationsList.map(
+                                          (e) {
+                                            return DropdownMenuItem(
+                                              child: Text(e.name),
+                                              value: e.organizationId,
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                      onChanged: (val) {
+                                        setState(() {
+                                          organizationSelected.text = val!;
+                                          if (val == notInList) {
+                                            organizationSelected.text = "";
+                                            isShowingDropDown = false;
+                                          }
+                                        });
+                                      }),
+                                ),
+                              ),
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 20),
+                              child: TextFormField(
+                                controller: organizationSelected,
+                                maxLength: 100,
+                                cursorColor: mainColor,
+                                decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      icon: const Icon(
+                                        Icons.arrow_drop_down,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          organizationSelected.text = "";
+                                          isShowingDropDown = true;
+                                        });
+                                      },
+                                    ),
+                                    label: const Text("Organization Name"),
+                                    contentPadding: const EdgeInsets.all(20),
+                                    floatingLabelStyle:
+                                        TextStyle(color: mainColor),
+                                    border: getInputBorder(),
+                                    focusedBorder: getInputBorder(),
+                                    disabledBorder: getInputBorder()),
+                              ),
+                            ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 30, vertical: 20),
@@ -456,8 +533,14 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                               ),
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
+                                  if (organizationSelected.text.isEmpty) {
+                                    showErrorDialogue(context,
+                                        msg: "Organization is required");
+                                    return;
+                                  }
                                   homeController.addActivity(context,
                                       orgName: orgNameCon.text,
+                                      organizationId: organizationSelected.text,
                                       hours:
                                           double.tryParse(hoursCon.text) ?? 1,
                                       notes: notesCon.text.isEmpty

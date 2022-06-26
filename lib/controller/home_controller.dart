@@ -30,7 +30,7 @@ class HomeController extends GetxController {
     // final orgId = const Uuid().v1();
     // final org = OrganizationModel(
     //     organizationId: orgId,
-    //     name: "xyz",
+    //     name: "C org",
     //     description: "iadwn i",
     //     logoUrl: "Awd",
     //     phone: "+214124124",
@@ -39,6 +39,7 @@ class HomeController extends GetxController {
     //     contactPhone: "+234324",
     //     address: "wanoidw",
     //     websiteUrl: "wnaodnwa",
+    //     isActive: true,
     //     dateCreated: Timestamp.now());
 
     // await FirebaseFirestore.instance
@@ -48,9 +49,12 @@ class HomeController extends GetxController {
 
     try {
       isLoading = true;
-      final docs =
-          (await FirebaseFirestore.instance.collection("organizations").get())
-              .docs;
+      final docs = (await FirebaseFirestore.instance
+              .collection("organizations")
+              .where("isActive", isEqualTo: true)
+              .orderBy("name", descending: false)
+              .get())
+          .docs;
 
       docs.forEach((element) {
         organizationsList.add(OrganizationModel.fromJson(element.data()));
@@ -60,7 +64,8 @@ class HomeController extends GetxController {
     } catch (e) {
       isLoading = false;
       update();
-      log(e.toString());
+      // log(e.toString());
+      print(e);
     }
   }
 
@@ -77,7 +82,8 @@ class HomeController extends GetxController {
   }
 
   Future<void> addActivity(BuildContext context,
-      {required String orgName,
+      {required String organizationId,
+      required String orgName,
       required String? notes,
       required double hours,
       required FilePickerResult? pickedFiles}) async {
@@ -90,6 +96,7 @@ class HomeController extends GetxController {
         final activity = ActivityModel(
           dateCreated: Timestamp.now(),
           uid: FirebaseAuth.instance.currentUser!.uid,
+          organizationId: organizationId,
           activityId: const Uuid().v1(),
           organizationName: orgName,
           hours: hours,
