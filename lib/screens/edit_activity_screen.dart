@@ -28,7 +28,7 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
   final notesCon = TextEditingController();
   final hoursCon = TextEditingController();
   final organizationSelected = TextEditingController();
-  bool isShowingDropDown = true;
+  // bool isShowingDropDown = true;
   final homeController = Get.find<HomeController>();
   List<String> urlsList = List.empty(growable: true);
   int imageCount = 0;
@@ -52,12 +52,10 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
               log("Not NUll");
               organizationSelected.text = args!.activity.organizationId!;
             } else {
-              log(" NUll");
-              setState(() {
-                organizationSelected.text = args!.activity.organizationId!;
-                isShowingDropDown = false;
-              });
+              organizationSelected.text = notInList;
             }
+          } else {
+            organizationSelected.text = notInList;
           }
           hoursCon.text = args!.activity.hours.toString();
           imageCount = args!.activity.picsUrl != null &&
@@ -115,105 +113,107 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                             SizedBox(
                               height: Get.height * 0.1,
                             ),
-                            isShowingDropDown &&
-                                    organizationSelected.text != notInList
-                                ? Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 30),
-                                    child: Card(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        child: DropdownButton<String>(
-                                            value: organizationSelected
-                                                    .text.isNotEmpty
-                                                ? organizationSelected.text
-                                                : null,
-                                            isExpanded: true,
-                                            underline: const SizedBox(),
-                                            hint: const Text(
-                                                "Choose Organization"),
-                                            items: [
-                                              const DropdownMenuItem(
-                                                child: Text(
-                                                  notInList,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                value: notInList,
-                                              ),
-                                              ...homeController
-                                                  .organizationsList
-                                                  .map(
-                                                (e) {
-                                                  return DropdownMenuItem(
-                                                    child: Text(e.name),
-                                                    value: e.organizationId,
-                                                  );
-                                                },
-                                              ),
-                                            ],
-                                            onChanged: (val) {
-                                              setState(() {
-                                                organizationSelected.text =
-                                                    val!;
-                                                if (val == notInList) {
-                                                  organizationSelected.text =
-                                                      "";
-                                                  isShowingDropDown = false;
-                                                }
-                                              });
-                                            }),
-                                      ),
-                                    ),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 30, vertical: 20),
-                                    child: TextFormField(
-                                      controller: organizationSelected,
-                                      maxLength: 100,
-                                      cursorColor: mainColor,
-                                      decoration: InputDecoration(
-                                          suffixIcon: IconButton(
-                                            icon: const Icon(
-                                              Icons.arrow_drop_down,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                organizationSelected.text = "";
-                                                isShowingDropDown = true;
-                                              });
-                                            },
+                            // isShowingDropDown &&
+                            //         organizationSelected.text != notInList
+                            //     ?
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide(color: mainColor),
+                                    borderRadius: BorderRadius.circular(20)),
+                                elevation: 3,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: DropdownButton<String>(
+                                      borderRadius: BorderRadius.circular(20),
+                                      value:
+                                          organizationSelected.text.isNotEmpty
+                                              ? organizationSelected.text
+                                              : null,
+                                      isExpanded: true,
+                                      underline: const SizedBox(),
+                                      hint: const Text("Choose Organization"),
+                                      items: [
+                                        const DropdownMenuItem(
+                                          child: Text(
+                                            notInList,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
                                           ),
-                                          label:
-                                              const Text("Organization Name"),
-                                          contentPadding:
-                                              const EdgeInsets.all(20),
-                                          floatingLabelStyle:
-                                              TextStyle(color: mainColor),
-                                          border: getInputBorder(),
-                                          focusedBorder: getInputBorder(),
-                                          disabledBorder: getInputBorder()),
-                                    ),
-                                  ),
+                                          value: notInList,
+                                        ),
+                                        ...homeController.organizationsList.map(
+                                          (e) {
+                                            return DropdownMenuItem(
+                                              child: Text(e.name),
+                                              value: e.organizationId,
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                      onChanged: (val) {
+                                        setState(() {
+                                          organizationSelected.text = val!;
+                                          if (val == notInList) {
+                                            // organizationSelected.text =
+                                            // "";
+                                            // isShowingDropDown = false;
+                                          }
+                                        });
+                                      }),
+                                ),
+                              ),
+                            ),
+                            // : Padding(
+                            //     padding: const EdgeInsets.symmetric(
+                            //         horizontal: 30, vertical: 20),
+                            //     child: TextFormField(
+                            //       controller: organizationSelected,
+                            //       maxLength: 100,
+                            //       cursorColor: mainColor,
+                            //       decoration: InputDecoration(
+                            //           suffixIcon: IconButton(
+                            //             icon: const Icon(
+                            //               Icons.arrow_drop_down,
+                            //             ),
+                            //             onPressed: () {
+                            //               setState(() {
+                            //                 organizationSelected.text = "";
+                            //                 isShowingDropDown = true;
+                            //               });
+                            //             },
+                            //           ),
+                            //           label:
+                            //               const Text("Organization Name"),
+                            //           contentPadding:
+                            //               const EdgeInsets.all(20),
+                            //           floatingLabelStyle:
+                            //               TextStyle(color: mainColor),
+                            //           border: getInputBorder(),
+                            //           focusedBorder: getInputBorder(),
+                            //           disabledBorder: getInputBorder()),
+                            //     ),
+                            //   ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 20),
                               child: TextFormField(
                                 maxLength: 100,
                                 controller: orgNameCon,
-                                // validator: (value) {
-                                //   if (value == null || value.isEmpty) {
-                                //     return "Organization Name is required";
-                                //   }
-                                //   return null;
-                                // },
+                                validator: (value) {
+                                  if (organizationSelected.text == notInList &&
+                                      (value == null || value.isEmpty)) {
+                                    return "Activity Name is required";
+                                  }
+                                  return null;
+                                },
                                 cursorColor: mainColor,
                                 decoration: InputDecoration(
                                   label: const Text("Activity Name"),
-                                  contentPadding: const EdgeInsets.all(30),
+                                  // contentPadding: const EdgeInsets.all(30),
                                   floatingLabelStyle:
                                       TextStyle(color: mainColor),
                                   border: getInputBorder(),
@@ -221,18 +221,18 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 30),
-                              child: Row(
-                                children: const [
-                                  Text(
-                                    "Duration",
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.symmetric(
+                            //       vertical: 10, horizontal: 30),
+                            //   child: Row(
+                            //     children: const [
+                            //       Text(
+                            //         "Duration",
+                            //         style: TextStyle(fontSize: 18),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30),
@@ -255,6 +255,7 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                                 ],
                                 decoration: InputDecoration(
                                     hintText: "1, 2, 4.5",
+                                    label: const Text("Duration"),
                                     contentPadding: const EdgeInsets.all(20),
                                     floatingLabelStyle:
                                         TextStyle(color: mainColor),
@@ -746,69 +747,86 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 20, horizontal: 10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: mainColor,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          side: BorderSide(color: mainColor)),
-                                    ),
-                                    onPressed: () {
-                                      if (organizationSelected.text.isEmpty) {
-                                        showErrorDialogue(context,
-                                            msg: "Organization is required");
-                                        return;
-                                      }
-                                      if (formKey.currentState!.validate()) {
-                                        ActivityModel newActivity =
-                                            ActivityModel(
-                                          uid: args!.activity.uid,
-                                          activityId: args!.activity.activityId,
-                                          organizationId:
-                                              organizationSelected.text,
-                                          organizationName: orgNameCon.text,
-                                          hours: double.parse(hoursCon.text),
-                                          dateFrom: homeController.dateFrom!,
-                                          dateTo: homeController.dateTo,
-                                          dateCreated:
-                                              args!.activity.dateCreated,
-                                          notes: notesCon.text,
-                                          picsUrl: args!.activity.picsUrl,
-                                        );
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: mainColor,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            side: BorderSide(color: mainColor)),
+                                      ),
+                                      onPressed: () {
+                                        if (organizationSelected.text.isEmpty) {
+                                          showErrorDialogue(context,
+                                              msg: "Organization is required");
+                                          return;
+                                        }
+                                        if (formKey.currentState!.validate()) {
+                                          if (organizationSelected
+                                                  .text.isEmpty &&
+                                              orgNameCon.text.isEmpty) {
+                                            showErrorDialogue(context,
+                                                msg:
+                                                    "Organization is required");
+                                            return;
+                                          }
+                                          ActivityModel newActivity =
+                                              ActivityModel(
+                                            uid: args!.activity.uid,
+                                            activityId:
+                                                args!.activity.activityId,
+                                            organizationId:
+                                                organizationSelected.text ==
+                                                        notInList
+                                                    ? null
+                                                    : organizationSelected.text,
+                                            organizationName: orgNameCon.text,
+                                            hours: double.parse(hoursCon.text),
+                                            dateFrom: homeController.dateFrom!,
+                                            dateTo: homeController.dateTo,
+                                            dateCreated:
+                                                args!.activity.dateCreated,
+                                            notes: notesCon.text,
+                                            picsUrl: args!.activity.picsUrl,
+                                          );
 
-                                        homeController.editActivity(context,
-                                            activity: newActivity,
-                                            pickedFiles: pickedFiles);
-                                      }
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(15.0),
-                                      child: Text("Update Activity"),
+                                          homeController.editActivity(context,
+                                              activity: newActivity,
+                                              pickedFiles: pickedFiles);
+                                        }
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(15.0),
+                                        child: Text("Update Activity"),
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 20,
+                                    width: 30,
                                   ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.transparent,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          side: BorderSide(color: mainColor)),
-                                    ),
-                                    onPressed: () {
-                                      Get.offAllNamed(Routes.homeScreen);
-                                    },
-                                    child: const Padding(
-                                      padding: EdgeInsets.all(15.0),
-                                      child: Text(
-                                        "Close",
-                                        style: TextStyle(color: Colors.black),
+                                  Expanded(
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: mainColor,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            side: BorderSide(color: mainColor)),
+                                      ),
+                                      onPressed: () {
+                                        Get.offAllNamed(Routes.homeScreen);
+                                      },
+                                      child: const Padding(
+                                        padding: EdgeInsets.all(15.0),
+                                        child: Text(
+                                          "Close",
+                                          // style: TextStyle(color: Colors.black),
+                                        ),
                                       ),
                                     ),
                                   ),

@@ -63,33 +63,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white, //Colors.grey.withOpacity(0.2),
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80.0),
-        child: AppBar(
-          backgroundColor: mainColor,
-          leading: const Image(
-            image: AssetImage("assets/vol.png"),
-          ),
-          title: const Text("My Activites"),
-          centerTitle: true,
-          leadingWidth: Get.width * 0.3,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 40),
-              child: IconButton(
-                tooltip: "Logout",
-                onPressed: () {
-                  authController.logout(context);
-                },
-                icon: const FaIcon(
-                  Icons.logout,
-                  size: 35,
-                  color: Colors.white,
-                ),
+      appBar: AppBar(
+        backgroundColor: mainColor,
+        // leading: const Image(
+        //   image: AssetImage("assets/vol.png"),
+        // ),
+        title: const Text("My Activites"),
+        centerTitle: true,
+        // leadingWidth: Get.width * 0.3,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 40),
+            child: IconButton(
+              tooltip: "Logout",
+              onPressed: () {
+                authController.logout(context);
+              },
+              icon: const FaIcon(
+                Icons.logout,
+                size: 35,
+                color: Colors.white,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       body: GetBuilder<HomeController>(builder: (ss) {
         return homeController.isLoading

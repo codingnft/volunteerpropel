@@ -82,7 +82,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> addActivity(BuildContext context,
-      {required String organizationId,
+      {required String? organizationId,
       required String orgName,
       required String? notes,
       required double hours,

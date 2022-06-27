@@ -139,7 +139,7 @@ class AcctivityCard2 extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 07),
                 child: Row(
                   children: [
                     Text(
@@ -170,15 +170,19 @@ class AcctivityCard2 extends StatelessWidget {
               //   ],
               // ),
               activity.notes != null
-                  ? ReadMoreText(
-                      activity.notes!,
-                      trimLines: 2,
-                      style: const TextStyle(color: Colors.black, fontSize: 16),
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: ReadMoreText(
+                        activity.notes!,
+                        trimLines: 2,
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 16),
+                      ),
                     )
                   : const SizedBox.shrink(),
 
               const SizedBox(
-                height: 40,
+                height: 30,
               ),
               activity.picsUrl != null
                   ? GridView.builder(

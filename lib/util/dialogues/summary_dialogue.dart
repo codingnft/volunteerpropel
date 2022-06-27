@@ -91,7 +91,7 @@ void summaryDialogue(BuildContext context) {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 20),
                                   child: Text(
-                                    "Congratulations! You volunteered ${homeController.allActivities.length} times and accumulated ${getHoursSum(homeController.allActivities).toString()} volunteering hours since joining our platform since ${getFormattedDate(Get.find<AuthController>().currentUser!.dateJoined.toDate())}",
+                                    "Congratulations! You volunteered ${homeController.allActivities.length} times and accumulated ${getHoursSum(homeController.allActivities).toString()} volunteering hours since joining our platform on ${getFormattedDate(Get.find<AuthController>().currentUser!.dateJoined.toDate())}",
                                     style: summaryTitle,
                                     textAlign: TextAlign.center,
                                   ),
