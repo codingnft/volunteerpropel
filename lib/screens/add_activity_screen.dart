@@ -78,6 +78,20 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                       SizedBox(
                         height: Get.height * 0.1,
                       ),
+                      organizationSelected.text.isNotEmpty
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 40),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "Organization",
+                                    style: TextStyle(color: mainColor),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: Card(
@@ -94,7 +108,7 @@ class _AddActivityScreenState extends State<AddActivityScreen> {
                                     : null,
                                 isExpanded: true,
                                 underline: const SizedBox(),
-                                hint: const Text("Choose Organization"),
+                                hint: const Text("Organization"),
                                 items: [
                                   const DropdownMenuItem(
                                     child: Text(

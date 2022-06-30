@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:readmore/readmore.dart';
 import 'package:volunteer/controller/home_controller.dart';
 import 'package:volunteer/models/activity_model.dart';
+import 'package:volunteer/models/organization_model.dart';
 import 'package:volunteer/routes/routes.dart';
 import 'package:volunteer/screens/edit_activity_screen.dart';
 import 'package:volunteer/util/const.dart';
@@ -13,11 +14,31 @@ import 'package:volunteer/util/dialogues/action_dialogue.dart';
 import 'package:volunteer/util/dialogues/show_image_dialogue.dart';
 import 'package:volunteer/util/helper.dart';
 
-class AcctivityCard2 extends StatelessWidget {
+class AcctivityCard2 extends StatefulWidget {
   AcctivityCard2({required this.activity, Key? key}) : super(key: key);
 
   final ActivityModel activity;
+
+  @override
+  State<AcctivityCard2> createState() => _AcctivityCard2State();
+}
+
+class _AcctivityCard2State extends State<AcctivityCard2> {
+  OrganizationModel? isFound;
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      if (widget.activity.organizationId != null) {
+        isFound = homeController.organizationsList.firstWhereOrNull((element) =>
+            element.organizationId == widget.activity.organizationId);
+        setState(() {});
+      }
+    });
+    super.initState();
+  }
+
   final homeController = Get.find<HomeController>();
+
   @override
   Widget build(BuildContext context) {
     // log(activity.organizationName.isEmpty.toString());
@@ -32,64 +53,54 @@ class AcctivityCard2 extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Builder(builder: (context) {
-                if (activity.organizationId != null) {
-                  final isFound = homeController.organizationsList
-                      .firstWhereOrNull((element) =>
-                          element.organizationId == activity.organizationId);
-                  if (isFound != null) {
-                    return SizedBox(
+              isFound != null
+                  ? SizedBox(
                       width: constraints.maxWidth / 1.7,
                       child: RichText(
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        strutStyle: const StrutStyle(fontSize: 30.0),
+                        strutStyle: const StrutStyle(fontSize: 20.0),
                         text: TextSpan(
                             style: TextStyle(
                                 color: mainColor,
-                                fontSize: 30,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold),
-                            text: isFound.name),
+                            text: isFound!.name),
                       ),
-                    );
-                  } else {
-                    return SizedBox(
+                    )
+                  : SizedBox(
                       width: constraints.maxWidth / 1.7,
                       child: RichText(
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        strutStyle: const StrutStyle(fontSize: 30.0),
+                        strutStyle: const StrutStyle(fontSize: 20.0),
                         text: TextSpan(
                             style: TextStyle(
                                 color: mainColor,
-                                fontSize: 30,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold),
-                            text: activity.organizationId),
+                            text: widget.activity.organizationId),
                       ),
-                    );
-                  }
-                } else {
-                  return const SizedBox.shrink();
-                }
-              }),
+                    ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  activity.organizationName.isNotEmpty
+                  widget.activity.organizationName.isNotEmpty
                       ? Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          padding: const EdgeInsets.symmetric(vertical: 3),
                           child: SizedBox(
                             width: constraints.maxWidth / 1.7,
                             child: RichText(
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              strutStyle: const StrutStyle(fontSize: 30.0),
+                              strutStyle: const StrutStyle(fontSize: 20.0),
                               text: TextSpan(
                                   style: TextStyle(
                                       color: mainColor,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
-                                  text: "${activity.organizationName}"),
+                                  text: "${widget.activity.organizationName}"),
                             ),
                           ),
                         )
@@ -100,7 +111,8 @@ class AcctivityCard2 extends StatelessWidget {
                         onTap: () {
                           Get.toNamed(
                             Routes.editActivityScreen,
-                            arguments: EditScreenArgs(activity: activity),
+                            arguments:
+                                EditScreenArgs(activity: widget.activity),
                           );
                         },
                         child: Image.asset(
@@ -124,7 +136,7 @@ class AcctivityCard2 extends StatelessWidget {
                             onpressed: () {
                               Get.back();
                               homeController.deleteActivity(context,
-                                  activity: activity);
+                                  activity: widget.activity);
                             },
                           );
                         },
@@ -139,18 +151,18 @@ class AcctivityCard2 extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 07),
+                padding: const EdgeInsets.symmetric(vertical: 3),
                 child: Row(
                   children: [
                     Text(
-                      "${getFormattedDate(activity.dateFrom)},",
+                      "${getFormattedDate(widget.activity.dateFrom)},",
                       style: const TextStyle(color: Colors.black, fontSize: 16),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     Text(
-                      "${activity.hours.toString()} hour",
+                      "${widget.activity.hours.toString()} hour",
                       style: const TextStyle(color: Colors.black, fontSize: 16),
                     ),
                   ],
@@ -169,11 +181,11 @@ class AcctivityCard2 extends StatelessWidget {
               //     ),
               //   ],
               // ),
-              activity.notes != null
+              widget.activity.notes != null
                   ? Padding(
                       padding: const EdgeInsets.only(top: 15),
                       child: ReadMoreText(
-                        activity.notes!,
+                        widget.activity.notes!,
                         trimLines: 2,
                         style:
                             const TextStyle(color: Colors.black, fontSize: 16),
@@ -184,7 +196,7 @@ class AcctivityCard2 extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              activity.picsUrl != null
+              widget.activity.picsUrl != null
                   ? GridView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -195,7 +207,7 @@ class AcctivityCard2 extends StatelessWidget {
                         return GestureDetector(
                           onTap: () {
                             showImageDailogue(context,
-                                url: activity.picsUrl![index]);
+                                url: widget.activity.picsUrl![index]);
                           },
                           child: Container(
                             // decoration: BoxDecoration(
@@ -205,8 +217,8 @@ class AcctivityCard2 extends StatelessWidget {
                             //         color: mainColor.withOpacity(0.5))),
                             decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image:
-                                        NetworkImage(activity.picsUrl![index]),
+                                    image: NetworkImage(
+                                        widget.activity.picsUrl![index]),
                                     fit: BoxFit.cover)),
                             width: 200,
                             height: 200,
@@ -235,7 +247,7 @@ class AcctivityCard2 extends StatelessWidget {
                         );
                       },
                       shrinkWrap: true,
-                      itemCount: activity.picsUrl!.length,
+                      itemCount: widget.activity.picsUrl!.length,
                     )
                   : const SizedBox.shrink(),
             ],
