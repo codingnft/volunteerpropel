@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,11 +21,12 @@ class _AuthScreenState extends State<AuthScreen> {
   final controller = Get.find<UiController>();
   @override
   void initState() {
-    FirebaseAuth.instance.authStateChanges().listen((event) {
-      if (event != null) {
+    FirebaseAuth.instance.idTokenChanges().listen((event) {}).onData((data) {
+      if (data != null) {
         Get.offAllNamed(Routes.homeScreen);
       }
     });
+    // FirebaseAuth.instance.authStateChanges().listen((event) {});
     super.initState();
   }
 

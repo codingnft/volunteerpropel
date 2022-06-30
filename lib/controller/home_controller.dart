@@ -20,11 +20,11 @@ import 'package:volunteer/util/helper.dart';
 class HomeController extends GetxController {
   List<OrganizationModel> organizationsList = List.empty(growable: true);
   bool isLoading = false;
-  @override
-  Future<void> onInit() async {
-    getOrgs();
-    super.onInit();
-  }
+  // @override
+  // Future<void> onInit() async {
+  //   await getOrgs();
+  //   super.onInit();
+  // }
 
   Future<void> getOrgs() async {
     // final orgId = const Uuid().v1();

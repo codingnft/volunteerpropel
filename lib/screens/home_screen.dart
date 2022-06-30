@@ -34,12 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    homeController.getOrgs();
     authController.initQuery(context);
-    FirebaseAuth.instance.authStateChanges().listen((event) {
-      if (event == null) {
-        Get.offAllNamed(Routes.authScreen);
-      }
-    });
+    // FirebaseAuth.instance.authStateChanges().listen((event) {
+    //   if (event == null) {
+    //     Get.offAllNamed(Routes.authScreen);
+    //   }
+    // });
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
       // uid = await authController.intializeCurrentUserHomeScreen();
     });

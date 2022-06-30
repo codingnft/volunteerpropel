@@ -159,7 +159,7 @@ class AuthController extends GetxController {
           await FirebaseAuth.instance.signOut();
           await googleSignIn.signOut();
           currentUser = null;
-          // Get.offAllNamed(Routes.authScreen);
+          Get.offAllNamed(Routes.authScreen);
         } catch (e) {
           Get.back();
           showErrorDialogue(context, msg: "Couldnt log out");

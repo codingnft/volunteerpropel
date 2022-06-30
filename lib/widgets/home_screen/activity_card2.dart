@@ -24,14 +24,15 @@ class AcctivityCard2 extends StatefulWidget {
 }
 
 class _AcctivityCard2State extends State<AcctivityCard2> {
-  OrganizationModel? isFound;
+  final isFound = ValueNotifier<OrganizationModel?>(null);
   @override
   void initState() {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      log(homeController.organizationsList.toString());
       if (widget.activity.organizationId != null) {
-        isFound = homeController.organizationsList.firstWhereOrNull((element) =>
-            element.organizationId == widget.activity.organizationId);
-        setState(() {});
+        isFound.value = homeController.organizationsList.firstWhereOrNull(
+            (element) =>
+                element.organizationId == widget.activity.organizationId);
       }
     });
     super.initState();
@@ -53,35 +54,39 @@ class _AcctivityCard2State extends State<AcctivityCard2> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              isFound != null
-                  ? SizedBox(
-                      width: constraints.maxWidth / 1.7,
-                      child: RichText(
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        strutStyle: const StrutStyle(fontSize: 20.0),
-                        text: TextSpan(
-                            style: TextStyle(
-                                color: mainColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                            text: isFound!.name),
-                      ),
-                    )
-                  : SizedBox(
-                      width: constraints.maxWidth / 1.7,
-                      child: RichText(
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        strutStyle: const StrutStyle(fontSize: 20.0),
-                        text: TextSpan(
-                            style: TextStyle(
-                                color: mainColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                            text: widget.activity.organizationId),
-                      ),
-                    ),
+              ValueListenableBuilder(
+                  valueListenable: isFound,
+                  builder: (context, __, _) {
+                    return isFound.value != null
+                        ? SizedBox(
+                            width: constraints.maxWidth / 1.7,
+                            child: RichText(
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              strutStyle: const StrutStyle(fontSize: 20.0),
+                              text: TextSpan(
+                                  style: TextStyle(
+                                      color: mainColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                  text: isFound.value!.name),
+                            ),
+                          )
+                        : SizedBox(
+                            width: constraints.maxWidth / 1.7,
+                            child: RichText(
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              strutStyle: const StrutStyle(fontSize: 20.0),
+                              text: TextSpan(
+                                  style: TextStyle(
+                                      color: mainColor,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                  text: widget.activity.organizationId),
+                            ),
+                          );
+                  }),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
